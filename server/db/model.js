@@ -1,11 +1,11 @@
 import { DataTypes, Model } from 'sequelize'
-import connectToDB from './db'
+import connectToDB from './database.js'
 import util from 'util'
 
 export const db = await connectToDB('postgresql:///averagedb')
 
 export class User extends Model {
-    [util.inpect.custom]() {
+    [util.inspect.custom]() {
         return this.toJSON()
     }
 }
@@ -77,7 +77,7 @@ Item.init(
 )
 
 export class Rating extends Model {
-    [util.inpect.custom]() {
+    [util.inspect.custom]() {
         return this.toJSON()
     }
 }
