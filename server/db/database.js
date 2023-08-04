@@ -3,7 +3,7 @@ import { Sequelize } from "sequelize";
 const connectToDB = async (dbURI) => {
     console.log(`connecting to db at ${dbURI}`)
     const sequelize = new Sequelize(dbURI, {
-        logging: false,
+        logging: console.log,
         define: {
             underscored: true,
             timestamps: false
