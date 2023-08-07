@@ -73,6 +73,21 @@ const handlerFunctions = {
         })
 
         res.json(newItem)
+    },
+
+    createUser: async (req, res) => {
+
+        const { username, password, firstName, lastName, imgUrl } = req.body
+
+        const newUser = await User.create({
+            username,
+            password,
+            firstName,
+            lastName,
+            imgUrl,
+        })
+
+        res.json(newUser)
     }
 }
 

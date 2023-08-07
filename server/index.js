@@ -23,6 +23,7 @@ const {
     getUserItems,
     searchItem,
     addItem,
+    createUser
 } = handlerFunctions
 
 // Routes
@@ -33,6 +34,6 @@ app.get('/item/:itemName', getItemByName)
 app.get('/items', getUserItems)
 app.get('/search/:name', searchItem)
 app.post('/item', addItem)
+app.post('/adduser', createUser)
 
-
-ViteExpress.listen(app, '8008', () => console.log('Now THIS is podracing on http://localhost:8008'))
+ViteExpress.listen(app, '8008', () => console.log('Now THIS is http://localhost:8008'))
