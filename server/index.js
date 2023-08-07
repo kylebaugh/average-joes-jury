@@ -9,21 +9,24 @@ const app = express()
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-app.unsubscribe(session({ 
-    secret: 'geronimo', 
-    saveUninitialized: false, 
-    resave: false 
+app.use(session({
+    secret: 'geronimo',
+    saveUninitialized: false,
+    resave: false
 }))
 
-const { 
-    getAllUsers, 
-    getUserByUsername, 
-    getAllItems, 
+const {
+    getAllUsers,
+    getUserByUsername,
+    getAllItems,
     getItemByName,
     getUserItems,
     searchItem,
     addItem,
-    createUser
+    createUser,
+    login,
+    logout,
+    addRating
 } = handlerFunctions
 
 // Routes
@@ -35,5 +38,8 @@ app.get('/items', getUserItems)
 app.get('/search/:name', searchItem)
 app.post('/item', addItem)
 app.post('/adduser', createUser)
+app.post('/login', login)
+app.get('/logout', logout)
+app.post('/rating', addRating)
 
 ViteExpress.listen(app, '8008', () => console.log('Now THIS is http://localhost:8008'))
