@@ -27,12 +27,12 @@ const handlerFunctions = {
     },
 
     getUserItems: async (req, res) => {
-        
+
         const user = await User.findOne({
-            where: { 
-                userId: +req.query.userId 
-            }, include: { 
-                model: Item 
+            where: {
+                userId: +req.query.userId
+            }, include: {
+                model: Item
             }
         })
 
@@ -42,15 +42,15 @@ const handlerFunctions = {
     searchItem: async (req, res) => {
 
         const items = await Item.findAll({
-            where: { 
+            where: {
                 name: {
                     [Op.like]: `%${req.params.name}%`
-                } 
+                }
             },
             include: [
                 {
                     model: Rating
-                }, 
+                },
                 {
                     model: User
                 }
@@ -88,6 +88,10 @@ const handlerFunctions = {
         })
 
         res.json(newUser)
+    },
+
+    login: async (req, res) => {
+
     }
 }
 
