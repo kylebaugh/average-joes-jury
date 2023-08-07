@@ -88,6 +88,10 @@ const handlerFunctions = {
         })
 
         res.json(newUser)
+    },
+
+    login: async (req, res) => {
+        
     }
 }
 
