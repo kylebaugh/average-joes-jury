@@ -36,7 +36,7 @@ const {
     getAllItems, 
     getItemByName,
     getUserItems,
-    searchItem,
+    searchItems,
     addItem,
     deleteItem,
     editItem,
@@ -57,15 +57,15 @@ app.get('/logout', logout)
 app.get('/users', getAllUsers)
 app.get('/user/:username', getUserByUsername)
 app.post('/adduser', createUser)
-app.put('/updateuser', updateUser)
-app.delete('/deleteuser', deleteUser)
+app.put('/user', updateUser)
+app.delete('/user', deleteUser)
 app.put('/changepassword', changePassword)
 
 // items
 app.get('/items/all', getAllItems)
 app.get('/item/:itemName', getItemByName)
 app.get('/items', getUserItems)
-app.get('/search/:name', searchItem)
+app.get('/search/:name', searchItems)
 app.post('/item', addItem)
 app.delete('/item', deleteItem)
 app.put('/item', editItem)

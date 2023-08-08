@@ -36,7 +36,7 @@ const itemFunctions = {
         return res.json(user.items)
     },
 
-    searchItem: async (req, res) => {
+    searchItems: async (req, res) => {
 
         const items = await Item.findAll({
             where: { 
