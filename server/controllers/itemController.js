@@ -27,7 +27,7 @@ const itemFunctions = {
         // console.log(req.session)
         const user = await User.findOne({
             where: {
-                userId: req.session.userId
+                userId: req.session.currentProfile.userId
             }
             , include: {
                 model: Item
@@ -60,6 +60,11 @@ const itemFunctions = {
 
     addItem: async (req, res) => {
 
+        if(!req.session.user){
+            res.json('You must be logged in')
+            return
+        }
+
         const { name, description, imgUrl } = req.body
 
         const user = await User.findByPk(req.session.user.userId)
@@ -74,6 +79,11 @@ const itemFunctions = {
     },
 
     deleteItem: async (req, res) => {
+
+        if(!req.session.user){
+            res.json('You must be logged in')
+            return
+        }
 
         if(req.session.user.userId === req.session.item.userId){
 
@@ -96,6 +106,12 @@ const itemFunctions = {
     },
 
     editItem: async (req, res) => {
+
+        if(!req.session.user){
+            res.json('You must be logged in')
+            return
+        }
+
         if(req.session.user.userId === req.session.item.userId){
             let item = await Item.findByPk(req.session.item.itemId)
 

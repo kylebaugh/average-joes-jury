@@ -39,7 +39,9 @@ const {
 } = itemFunctions
 
 const {
-    addRating
+    addRating,
+    updateRating,
+    deleteRating
 } = ratingFunctions
 
 const {
@@ -63,8 +65,10 @@ app.put('/item', editItem)
 app.delete('/item', deleteItem)
 
 app.post('/rating', addRating)
+app.put('/rating/:ratingId', updateRating)
+app.delete('/rating/:ratingId', deleteRating)
 
 app.post('/login', login)
 app.get('/logout', logout)
 
-ViteExpress.listen(app, '8008', () => console.log('Now THIS is http://localhost:8008'))
+ViteExpress.listen(app, 8008, () => console.log('Now THIS is http://localhost:8008'))

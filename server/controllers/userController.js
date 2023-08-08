@@ -20,7 +20,7 @@ const userFunctions = {
 
         req.session.currentProfile = profile
 
-        res.json('view profile set')
+        res.json(profile.rating)
     },
     createUser: async (req, res) => {
 
@@ -43,6 +43,11 @@ const userFunctions = {
 
     deleteUser: async (req, res) => {
 
+        if(!req.session.user){
+            res.json('You must be logged in')
+            return
+        }
+
         await User.destroy({
             where: {
                 userId: req.session.user.userId
@@ -55,6 +60,11 @@ const userFunctions = {
     },
 
     updateUser: async (req, res) => {
+
+        if(!req.session.user){
+            res.json('You must be logged in')
+            return
+        }
 
         const user = await User.findByPk(req.session.user.userId)
 
