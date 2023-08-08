@@ -1,5 +1,6 @@
 import { User, Item, Rating, db } from "./model.js";
-import lodash from 'lodash'
+import lodash from 'lodash';
+import bcryptjs from 'bcryptjs';
 
 console.log("Syncing database ...")
 
@@ -11,9 +12,12 @@ const WORDS = ["the tits", "bootaylicious", "duh sheeyit", "top notch", "gnarly 
 
 let i = 1
 while (i < 11) {
+    const salt = bcryptjs.genSaltSync(5)
+    const hashedPassword = bcryptjs.hashSync('test', salt)
+    
     const newUser = await User.create({
         username: `user${i}`,
-        password: 'test',
+        password: hashedPassword,
         firstName: `Fname${i}`,
         lastName: `Lname${i}`,
     })
