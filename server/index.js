@@ -2,7 +2,12 @@ import express from 'express'
 import morgan from 'morgan'
 import session from 'express-session'
 import ViteExpress from 'vite-express'
-import handlerFunctions from './controller.js'
+// import handlerFunctions from './controller.js'
+import userFunctions from './controllers/userController.js'
+import authFunctions from './controllers/authController.js'
+import itemFunctions from './controllers/itemController.js'
+import ratingFunctions from './controllers/ratingController.js'
+
 
 const app = express()
 
@@ -18,28 +23,48 @@ app.use(session({
 const {
     getAllUsers,
     getUserByUsername,
+    createUser,
+    deleteUser,
+    updateUser
+} = userFunctions
+
+const {
     getAllItems,
     getItemByName,
     getUserItems,
     searchItem,
     addItem,
-    createUser,
+    deleteItem,
+    editItem
+} = itemFunctions
+
+const {
+    addRating
+} = ratingFunctions
+
+const {
     login,
     logout,
-    addRating
-} = handlerFunctions
+} = authFunctions
 
 // Routes
 app.get('/users', getAllUsers)
 app.get('/user/:username', getUserByUsername)
-app.get('/items/all', getAllItems)
-app.get('/item/:itemName', getItemByName)
-app.get('/items', getUserItems)
-app.get('/search/:name', searchItem)
-app.post('/item', addItem)
 app.post('/adduser', createUser)
+app.delete('/user', deleteUser)
+app.put('/user', updateUser)
+
+app.get('/items/all', getAllItems)
+app.get('/item/:itemName', getItemByName) // get one item by name
+app.get('/items', getUserItems) // get all items
+app.post('/item', addItem) // add one item
+app.get('/search/:name', searchItem)
+app.put('/item', editItem)
+app.delete('/item', deleteItem)
+
+app.post('/rating', addRating)
+
 app.post('/login', login)
 app.get('/logout', logout)
-app.post('/rating', addRating)
 
 ViteExpress.listen(app, '8008', () => console.log('Now THIS is http://localhost:8008'))
