@@ -27,13 +27,13 @@ const itemFunctions = {
         
         const user = await User.findOne({
             where: { 
-                userId: +req.session.userId 
+                userId: +req.session.currentProfile.userId 
             }, include: { 
                 model: Item 
             }
         })
 
-        res.json(user.items)
+        return res.json(user.items)
     },
 
     searchItem: async (req, res) => {
@@ -45,19 +45,19 @@ const itemFunctions = {
                 } 
             },
             include: [
-                {
-                    model: Rating
-                }, 
-                {
-                    model: User
-                }
+                { model: Rating }, 
+                { model: User }
             ]
         })
 
-        res.json(items)
+        return res.json(items)
     },
 
     addItem: async (req, res) => {
+
+        if (!req.session.user) {
+            return res.json("You must be logged in to do that")
+        }
 
         const { name, description, imgUrl } = req.body
 
@@ -72,40 +72,66 @@ const itemFunctions = {
             imgUrl,
         })
 
-        res.json(newItem)
+        return res.json(newItem)
     },
 
     deleteItem: async (req, res) => {
 
-        const item = await Item.findByPk(req.session.item.itemId)
+        if (!req.session.user) {
+            return res.json("You must be logged in to do that")
+        }
 
-        await Rating.destroy({
-            where: {
-                itemId: item.itemId,
-            }
-        })
+        if (req.session.user.userId === req.session.item.userId){
 
-        await item.destroy()
-        delete req.session.item
+            const item = await Item.findByPk(req.session.item.itemId)
+    
+            await Rating.destroy({
+                where: {
+                    itemId: item.itemId,
+                }
+            })
+    
+            await item.destroy()
+            delete req.session.item
+    
+            return res.json("Item deleted")
 
-        res.json("Item deleted")
+        } else {
+
+            return res.json("You cannot delete an item that you did not create.")
+
+        }
     },
 
     editItem: async (req, res) => {
 
+        if (!req.session.user) {
+            return res.json("You must be logged in to do that")
+        }
+
         const item = await Item.findByPk(req.session.item.itemId)
 
-        const { name, description, imgUrl } = req.body
+        if (req.session.user.userId === req.session.item.userId) {
+    
+            const { name, description, imgUrl } = req.body
+    
+            item.name = name ?? item.name
+            item.description = description ?? item.description
+            item.imgUrl = imgUrl
+    
+            await item.save()
+            req.session.item = item
+    
+            return res.json({ message: "Item updated successfully", item: item})
 
-        item.name = name ?? item.name
-        item.description = description ?? item.description
-        item.imgUrl = imgUrl
-        
-        await item.save()
-        req.session.item = item
+        } else {
 
-        res.json({ message: "Item updated successfully", item: item})
+            return res.json({ message: "You cannot edit an item that you did not create", item: item })
+
+        }
     },
+
+
 }
 
 export default itemFunctions

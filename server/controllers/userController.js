@@ -5,14 +5,26 @@ const userFunctions = {
 
     getAllUsers: async (req, res) => {
 
-        res.json(await User.findAll())
+        return res.json(await User.findAll())
+
     },
 
     getUserByUsername: async (req, res) => {
 
-        res.json(await User.findOne({
-            where: { username: req.params.username }
-        }))
+        const profile = await User.findOne({
+            where: { 
+                username: req.params.username 
+            },
+            include: [
+                { model: Item, },
+                { model: Rating, },
+            ]
+        })
+
+        req.session.currentProfile = profile
+
+        return res.json("view profile set")
+
     },
 
     createUser: async (req, res) => {
@@ -30,7 +42,8 @@ const userFunctions = {
             imgUrl,
         })
 
-        res.json(newUser)
+        return res.json(newUser)
+
     },
 
     deleteUser: async (req, res) => {
@@ -43,7 +56,11 @@ const userFunctions = {
         res.json("User all gone")
     },
 
-    editUser: async (req, res) => {
+    updateUser: async (req, res) => {
+
+        if (!req.session.user) {
+            return res.json("You must be logged in to do that")
+        }
 
         const user = await User.findByPk(req.session.user.userId)
 
@@ -57,10 +74,15 @@ const userFunctions = {
         await user.save()
         req.session.user = user
 
-        res.json({ message: "User successfully updated", user: user })
+        return res.json({ message: "User successfully updated", user: user })
+
     },
 
     changePassword: async (req, res) => {
+
+        if (!req.session.user) {
+            return res.json("You must be logged in to do that")
+        }
 
         const user = await User.findByPk(req.session.user.userId)
 
@@ -77,9 +99,10 @@ const userFunctions = {
         await user.save()
         req.session.user = user
         
-        res.json("Password successfully changed")
+        return res.json("Password successfully changed")
+        
     },
-    
+
 }
 
 export default userFunctions

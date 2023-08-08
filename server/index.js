@@ -27,7 +27,7 @@ const {
     getAllUsers,
     getUserByUsername,
     createUser,
-    editUser,
+    updateUser,
     deleteUser, 
     changePassword,
 } = userFunctions
@@ -44,6 +44,8 @@ const {
 
 const {
     addRating,
+    deleteRating,
+    updateRating,
 } = ratingFunctions
 
 // ROUTES //
@@ -55,7 +57,7 @@ app.get('/logout', logout)
 app.get('/users', getAllUsers)
 app.get('/user/:username', getUserByUsername)
 app.post('/adduser', createUser)
-app.put('/edituser', editUser)
+app.put('/updateuser', updateUser)
 app.delete('/deleteuser', deleteUser)
 app.put('/changepassword', changePassword)
 
@@ -65,10 +67,12 @@ app.get('/item/:itemName', getItemByName)
 app.get('/items', getUserItems)
 app.get('/search/:name', searchItem)
 app.post('/item', addItem)
-app.delete('/deleteitem', deleteItem)
-app.put('/edititem', editItem)
+app.delete('/item', deleteItem)
+app.put('/item', editItem)
 
 // ratings
 app.post('/addrating', addRating)
+app.delete('/rating/:ratingId', deleteRating)
+app.put('/rating/:ratingId', updateRating)
 
-ViteExpress.listen(app, '8008', () => console.log('Now THIS is http://localhost:8008'))
+ViteExpress.listen(app, 8008, () => console.log('Now THIS is http://localhost:8008 racing!'))
