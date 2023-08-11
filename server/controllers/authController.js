@@ -7,6 +7,8 @@ const authFunctions = {
 
         const {username, password} = req.body
 
+        console.log(req.body)
+
         const user = await User.findOne({
             where: {
                 username: username
