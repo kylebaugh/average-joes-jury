@@ -1,5 +1,4 @@
 import { User, Item, Rating } from "../db/model.js";
-import { Op } from "sequelize";
 import bcryptjs from 'bcryptjs'
 
 const authFunctions = {
@@ -14,8 +13,12 @@ const authFunctions = {
                 username: username
             },
             include: [
-                {model: Rating},
-                {model: Item}
+                { 
+                    model: Rating 
+                },
+                { 
+                    model: Item 
+                },
             ]
         })
 
@@ -35,14 +38,24 @@ const authFunctions = {
 
         console.log(req.session.user)
 
-        res.json('Login successful')
+        res.json({ message: 'Login successful', user: user })
 
     },
 
     logout: async (req, res) => {
-        req.session.destroy
+        req.session.destroy()
         res.json('Session terminated')
     },
+
+    sessionCheck: async (req, res) => {
+        if (req.session.user) {
+            res.json({ user: req.session.user })
+        } else {
+            res.json("no user logged in")
+        }
+    },
+
+
 }
 
 export default authFunctions

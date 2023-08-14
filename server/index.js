@@ -47,15 +47,18 @@ const {
 const {
     login,
     logout,
+    sessionCheck,
 } = authFunctions
 
-// Routes
+/// Routes ///
+// Users
 app.get('/users', getAllUsers)
 app.get('/user/:username', getUserByUsername)
 app.post('/adduser', createUser)
 app.delete('/user', deleteUser)
 app.put('/user', updateUser)
 
+// Items
 app.get('/items/all', getAllItems)
 app.get('/item/:itemName', getItemByName) // get one item by name
 app.get('/items', getUserItems) // get all items
@@ -64,11 +67,14 @@ app.get('/search/:name', searchItem)
 app.put('/item', editItem)
 app.delete('/item', deleteItem)
 
+// Ratings
 app.post('/rating', addRating)
 app.put('/rating/:ratingId', updateRating)
 app.delete('/rating/:ratingId', deleteRating)
 
+// Authentication
 app.post('/login', login)
 app.get('/logout', logout)
+app.get('/sessionCheck', sessionCheck)
 
 ViteExpress.listen(app, 8008, () => console.log('Now THIS is http://localhost:8008'))

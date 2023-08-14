@@ -21,11 +21,13 @@ while (i < 11) {
         password: hash,
         firstName: `Fname${i}`,
         lastName: `Lname${i}`,
+        imgUrl: 'image'
     })
 
     await newUser.createItem({
         name: `Item${i}`,
         description: `Description for Item #${i}`,
+        imgUrl: 'itemImage',
     })
 
     i ++

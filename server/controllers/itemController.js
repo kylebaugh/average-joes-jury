@@ -1,5 +1,6 @@
 import { User, Item, Rating } from "../db/model.js";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
+import lodash from "lodash";
 
 const itemFunctions = {
     getAllItems: async (req, res) => {
@@ -11,16 +12,29 @@ const itemFunctions = {
 
         let myItem = await Item.findOne({
             where: { name: req.params.itemName },
-            include: {
-                model: Rating
-            }
+            include: [
+                {
+                    model: Rating
+                },
+                {
+                    model: User
+                },
+            ]
         })
 
         req.session.item = myItem
 
-        console.log(req.session.item)
+        console.log(myItem)
 
-        res.json(myItem)
+        let totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
+
+        res.json({ 
+            item: myItem, 
+            totalStars: totalStars, 
+            avg: totalStars / myItem.ratings.length,
+            randomReviews: lodash.sampleSize(myItem.ratings, 2),
+         })
+
     },
 
     getUserItems: async (req, res) => {
@@ -29,9 +43,14 @@ const itemFunctions = {
             where: {
                 userId: req.session.currentProfile.userId
             }
-            , include: {
-                model: Item
-            }
+            , include: [
+                {
+                    model: Item
+                },
+                {
+                    model: User
+                },
+            ]
         })
 
         res.json(user.items)

@@ -35,7 +35,7 @@ User.init(
         },
         imgUrl: {
             type: DataTypes.STRING(500),
-            allowNull: true,
+            allowNull: false,
         }
     },
     {
