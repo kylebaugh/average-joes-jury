@@ -1,3 +1,7 @@
-import { User, Item, Rating, db } from "./model.js";
+import { User, Item, Rating, db } from "./db/model.js";
 
-console.log(await User.findByPk(1))
+const i5 = await Item.findByPk(5)
+
+console.log(await i5.getRatings())
+
+

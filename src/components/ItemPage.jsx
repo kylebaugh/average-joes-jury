@@ -5,13 +5,13 @@ import lodash from 'lodash'
 
 const ItemPage = () => {
 
-    const [item, setItem] = useState(0)
+    const [item, setItem] = useState(null)
     const [totalStars, setTotalStars] = useState(0)
     const [avg, setAvg] = useState(0)
     const [randomReviews, setRandomReviews] = useState('')
 
     const getRandomItem = async () => {
-        await axios.get(`/item/Item${lodash.random(10)}`)
+        await axios.get(`/item/Item${lodash.random(1, 10)}`)
             .then((res) => {
                 // console.log(`res.data: ${res.data.item.user.imgUrl}`)
                 setItem(res.data.item)
@@ -27,12 +27,12 @@ const ItemPage = () => {
 
     return (
         <div>
-            <ItemFeed 
+            {item && <ItemFeed 
                 item={item} 
                 totalStars={totalStars}
                 avg={avg}
                 randomReviews={randomReviews}
-            />
+            />}
         </div>
     )
 }

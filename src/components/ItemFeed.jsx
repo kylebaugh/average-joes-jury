@@ -7,6 +7,7 @@ const ItemFeed = ({ item, totalStars, avg, randomReviews }) => {
     
     return (
         <div>Item on Feed
+
             <section>
                 <img src={item.user.imgUrl} alt="item creator img" />
                 <p>{item.name}</p>
@@ -24,6 +25,7 @@ const ItemFeed = ({ item, totalStars, avg, randomReviews }) => {
                 - {randomReviews[0].review}<br></br>
                 - {randomReviews[1].review}
             </section>
+            
         </div>
 
     )
