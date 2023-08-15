@@ -10,8 +10,8 @@ const itemFunctions = {
                 {model: User},
                 {model: Rating}
             ],
-            order: [['itemId', 'DESC']],
-            limit: 10
+            // order: [['itemId', 'DESC']],
+            limit: 5
         })
 
         res.json(ten)

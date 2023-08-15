@@ -1,9 +1,7 @@
-
+import {useState} from 'react'
 
 const ItemFeed = ({ item, totalStars, avg, randomReviews, feedItem }) => {
-
-    console.log(item.user)
-    // let userImg = item.user.imgUrl ?? ''
+    // console.log(avg)
 
     return (
         <div className='feedItem'>Item on Feed
@@ -16,11 +14,11 @@ const ItemFeed = ({ item, totalStars, avg, randomReviews, feedItem }) => {
                 <img src={item.imgUrl} alt="item img" />
                 <p>{item.description}</p>
             </section>
-            {!feedItem && <section>
+            {feedItem && <section>
                 Average Rating: {avg.toFixed(2)}
                 Total Ratings: {totalStars}
             </section>}
-            {!feedItem &&  <section>
+            {feedItem &&  <section>
                 Top Comments:
                 - {randomReviews[0].review}<br></br>
                 - {randomReviews[1].review}
