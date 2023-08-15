@@ -29,7 +29,7 @@ const {
 } = userFunctions
 
 const {
-    getAllItems,
+    getTenItems,
     getItemByName,
     getUserItems,
     searchItem,
@@ -59,7 +59,7 @@ app.delete('/user', deleteUser)
 app.put('/user', updateUser)
 
 // Items
-app.get('/items/all', getAllItems)
+app.get('/items/ten', getTenItems)
 app.get('/item/:itemName', getItemByName) // get one item by name
 app.get('/items', getUserItems) // get all items
 app.post('/item', addItem) // add one item

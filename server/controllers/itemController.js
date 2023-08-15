@@ -3,9 +3,18 @@ import { Op, Sequelize } from "sequelize";
 import lodash from "lodash";
 
 const itemFunctions = {
-    getAllItems: async (req, res) => {
+    getTenItems: async (req, res) => {
 
-        res.json(await Item.findAll())
+        const ten = await Item.findAll({
+            include: [
+                {model: User},
+                {model: Rating}
+            ],
+            // order: [['itemId', 'DESC']],
+            limit: 5
+        })
+
+        res.json(ten)
     },
 
     getItemByName: async (req, res) => {
@@ -28,9 +37,9 @@ const itemFunctions = {
 
         let totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
 
-        res.json({ 
-            item: myItem, 
-            totalStars: totalStars, 
+        res.json({
+            item: myItem,
+            totalStars: totalStars,
             avg: totalStars / myItem.ratings.length,
             randomReviews: lodash.sampleSize(myItem.ratings, 2),
          })

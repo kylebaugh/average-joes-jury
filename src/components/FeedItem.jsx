@@ -1,12 +1,10 @@
+import {useState} from 'react'
 
+const ItemFeed = ({ item, totalStars, avg, randomReviews, feedItem }) => {
+    // console.log(avg)
 
-const ItemFeed = ({ item, totalStars, avg, randomReviews }) => {
-
-    console.log(item.user)
-    // let userImg = item.user.imgUrl ?? ''
-    
     return (
-        <div>Item on Feed
+        <div className='feedItem'>Item on Feed
 
             <section>
                 <img src={item.user.imgUrl} alt="item creator img" />
@@ -16,16 +14,16 @@ const ItemFeed = ({ item, totalStars, avg, randomReviews }) => {
                 <img src={item.imgUrl} alt="item img" />
                 <p>{item.description}</p>
             </section>
-            <section>
+            {feedItem && <section>
                 Average Rating: {avg.toFixed(2)}
                 Total Ratings: {totalStars}
-            </section>
-            <section>
-                Top Comments: 
+            </section>}
+            {feedItem &&  <section>
+                Top Comments:
                 - {randomReviews[0].review}<br></br>
                 - {randomReviews[1].review}
-            </section>
-            
+            </section>}
+
         </div>
 
     )
