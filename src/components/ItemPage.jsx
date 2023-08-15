@@ -1,4 +1,4 @@
-import ItemFeed from "./ItemFeed.jsx";
+import FeedItem from "./FeedItem.jsx";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import lodash from 'lodash'
@@ -9,30 +9,55 @@ const ItemPage = () => {
     const [totalStars, setTotalStars] = useState(0)
     const [avg, setAvg] = useState(0)
     const [randomReviews, setRandomReviews] = useState('')
+    const [tenItems, setTenItems] = useState(null)
 
-    const getRandomItem = async () => {
-        await axios.get(`/item/Item${lodash.random(1, 10)}`)
+    // const getRandomItem = async () => {
+    //     await axios.get(`/item/Item${lodash.random(1, 10)}`)
+    //         .then((res) => {
+    //             // console.log(`res.data: ${res.data.item.user.imgUrl}`)
+    //             setItem(res.data.item)
+    //             setTotalStars(res.data.totalStars)
+    //             setAvg(res.data.avg)
+    //             setRandomReviews(res.data.randomReviews)
+    //         })
+    // }
+
+    const getTenItems = async () => {
+        await axios.get('/items/ten')
             .then((res) => {
-                // console.log(`res.data: ${res.data.item.user.imgUrl}`)
-                setItem(res.data.item)
-                setTotalStars(res.data.totalStars)
-                setAvg(res.data.avg)
-                setRandomReviews(res.data.randomReviews)
+                setTenItems(res.data)
             })
     }
 
     useEffect(() => {
-        getRandomItem()
+        // getRandomItem()
+        getTenItems()
     }, [])
+
+
 
     return (
         <div>
-            {item && <ItemFeed 
-                item={item} 
-                totalStars={totalStars}
-                avg={avg}
-                randomReviews={randomReviews}
-            />}
+            {/* {item && 
+                <FeedItem 
+                    item={item} 
+                    totalStars={totalStars}
+                    avg={avg}
+                    randomReviews={randomReviews}
+                />
+            } */}
+
+            {tenItems && 
+                <div id="mapped">
+                    {tenItems.map((item) => {
+                        return <FeedItem 
+                            key={item.itemId}
+                            item={item}
+                            feedItem={true}
+                        />
+                    })}
+                </div>
+            }
         </div>
     )
 }

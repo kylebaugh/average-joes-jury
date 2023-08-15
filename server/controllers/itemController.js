@@ -3,9 +3,27 @@ import { Op, Sequelize } from "sequelize";
 import lodash from "lodash";
 
 const itemFunctions = {
-    getAllItems: async (req, res) => {
+    getTenItems: async (req, res) => {
 
-        res.json(await Item.findAll())
+        const items = await Item.findAll({
+            include: [
+                { 
+                    model: Rating 
+                },
+                { 
+                    model: User 
+                },
+            ],
+            order: [ 
+                ['itemId', 'DESC'] 
+            ],
+            limit: 10
+        })
+
+        // console.log(items.forEach((item) => console.log(item.ratings)))
+
+        res.json(items)
+
     },
 
     getItemByName: async (req, res) => {
