@@ -1,9 +1,14 @@
 import { User, Item, Rating, db } from "./db/model.js";
+import { Op, Sequelize } from 'sequelize'
 
 
-const tenItems = await Item.findAll({
-    order: [ ['item_id', 'DESC'] ],
-    limit: 10
+const items = await Item.findAll({
+    attributes:  [[Sequelize.fn("SUM", Sequelize.col("rating.stars")), "totalStars"]],
+    include: [
+        {
+            model: Rating, attributes: []
+        }
+    ]
 })
 
-console.log(tenItems)
+console.log(items)

@@ -3,6 +3,32 @@ import { Op, Sequelize } from "sequelize";
 import lodash from "lodash";
 
 const itemFunctions = {
+
+    getItemsWithRatings: async (req, res) => {
+
+        const items = await Item.findAll({
+            attributes:  [
+                'itemId', 
+                'name', 
+                'description', 
+                'imgUrl', 
+                [Sequelize.fn("COUNT", Sequelize.col("ratings.rating_id")), "totalRatings"],
+                [Sequelize.fn("AVG", Sequelize.col("ratings.stars")), "avgStars"]
+            ],
+            include: [
+                {
+                    model: Rating, attributes: []
+                },
+                {
+                    model: User, attributes: ["username"]
+                },
+            ],
+            group: ['item.item_id', 'item.name', 'user.user_id', 'user.username']
+        })
+
+        res.json(items)
+    },
+
     getTenItems: async (req, res) => {
 
         const items = await Item.findAll({
