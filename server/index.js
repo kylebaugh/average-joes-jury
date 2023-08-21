@@ -17,7 +17,7 @@ app.use(express.json())
 app.use(session({
     secret: 'geronimo',
     saveUninitialized: false,
-    resave: false
+    resave: false,
 }))
 
 const {
@@ -67,7 +67,7 @@ app.post('/item', addItem) // add one item
 app.get('/search/:name', searchItem)
 app.put('/item', editItem)
 app.delete('/item', deleteItem)
-app.get('/items/ratings', getItemsWithRatings)
+// app.get('/items/ratings', getItemsWithRatings)
 
 // Ratings
 app.post('/rating', addRating)

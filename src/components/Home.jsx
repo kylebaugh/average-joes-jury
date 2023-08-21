@@ -1,14 +1,11 @@
-import Login from './Login.jsx'
+import Feed from "./Feed.jsx"
 
 const Home = () => {
 
 
     return (
         <div>Home Placeholder
-
-            <section>
-                <Login />
-            </section>
+            <Feed />
         </div>
     )
 

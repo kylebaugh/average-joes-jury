@@ -19,7 +19,7 @@ const Login = () => {
                     type: 'authenticated', 
                     payload: res.data.user.userId 
                 })
-                navigate('/')
+                // navigate('/home')
             })
             .catch(err => {
                 console.log(err)

@@ -3,13 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import lodash from 'lodash'
 
-const ItemPage = () => {
-
-    const [item, setItem] = useState(null)
-    const [totalStars, setTotalStars] = useState(0)
-    const [avg, setAvg] = useState(0)
-    const [randomReviews, setRandomReviews] = useState('')
-    const [tenItems, setTenItems] = useState(null)
+const Feed = () => {
 
     // const getRandomItem = async () => {
     //     await axios.get(`/item/Item${lodash.random(1, 10)}`)
@@ -22,6 +16,10 @@ const ItemPage = () => {
     //         })
     // }
 
+    const [tenItems, setTenItems] = useState(null)
+    const [searchValue, setSearchValue] = useState("")
+    // searchValue will return results which will just replace 'tenItems'
+
     const getTenItems = async () => {
         await axios.get('/items/ten')
             .then((res) => {
@@ -29,12 +27,20 @@ const ItemPage = () => {
             })
     }
 
+    const searchItems = async () => {
+        await axios.get(`/search/${searchValue.trim()}`)
+            .then((res) => {
+                setTenItems(res.data)
+            })
+    }
+
     useEffect(() => {
-        // getRandomItem()
-        getTenItems()
-    }, [])
-
-
+        if (searchValue.trim()) {
+            searchItems()
+        } else{
+            getTenItems()
+        }
+    }, [searchValue])
 
     return (
         <div>
@@ -46,14 +52,23 @@ const ItemPage = () => {
                     randomReviews={randomReviews}
                 />
             } */}
+            <input 
+                id="searchBar"
+                placeholder="Search"
+                onChange={(e) => setSearchValue(e.target.value)}
+            />
 
-            {tenItems && 
+            {tenItems &&
                 <div id="mapped">
                     {tenItems.map((item) => {
+                        
                         return <FeedItem 
                             key={item.itemId}
                             item={item}
-                            feedItem={true}
+                            feedItem={false}
+                            randomReviews={
+                                lodash.sampleSize(item.ratings, 2)
+                            }
                         />
                     })}
                 </div>
@@ -62,4 +77,4 @@ const ItemPage = () => {
     )
 }
 
-export default ItemPage
+export default Feed

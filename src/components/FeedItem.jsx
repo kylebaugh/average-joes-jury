@@ -1,17 +1,18 @@
+import lodash from 'lodash'
 
+const FeedItem = ({ item, randomReviews, feedItem }) => {
 
-const FeedItem = ({ item, totalStars, avg, randomReviews, feedItem }) => {
+    let totalRatings = item.ratings.length
+    let totalStars = item.ratings.reduce((a, c) => a + c.stars, 0)
+    let avgStars = totalStars / totalRatings
 
-    console.log(item.user)
-    // let userImg = item.user.imgUrl ?? ''
-    
     return (
 
-        <div className="feed-item">Item on Feed
+        <div className="feed-item"><em>Item on Feed</em>
 
             <section>
                 <img src={item.user.imgUrl} alt="item creator img" />
-                <p>{item.name}</p>
+                <h3>{item.name}</h3>
             </section>
             <section>
                 <img src={item.imgUrl} alt="item img" />
@@ -19,13 +20,13 @@ const FeedItem = ({ item, totalStars, avg, randomReviews, feedItem }) => {
             </section>
             {!feedItem &&
             <section>
-                Average Rating: {avg.toFixed(2)}
-                Total Ratings: {totalStars}
+                Average Rating: {avgStars.toFixed(2)}
+                Total Ratings: {totalRatings}
             </section>
             }
             {!feedItem &&
                 <section>
-                Top Comments: 
+                <b>Top Comments:</b> <br></br>
                 - {randomReviews[0].review}<br></br>
                 - {randomReviews[1].review}
             </section>

@@ -17,14 +17,27 @@ const itemFunctions = {
             ],
             include: [
                 {
-                    model: Rating, attributes: []
+                    model: Rating, attributes: [
+                        // "ratingId", 
+                        // "stars", 
+                        // "review", 
+                        // "imgUrl",
+                    ]
                 },
-                {
-                    model: User, attributes: ["username"]
-                },
+                // {
+                //     model: User, attributes: [
+                //         "username",
+                //     ]
+                // },
             ],
-            group: ['item.item_id', 'item.name', 'user.user_id', 'user.username']
+            group: [
+                'item.item_id', 
+                // 'user.user_id',  
+                // 'ratings.rating_id',
+            ]
         })
+
+        const itemRatings = await items[0].getRatings()
 
         res.json(items)
     },
@@ -45,8 +58,6 @@ const itemFunctions = {
             ],
             limit: 10
         })
-
-        // console.log(items.forEach((item) => console.log(item.ratings)))
 
         res.json(items)
 
@@ -104,9 +115,12 @@ const itemFunctions = {
 
         const items = await Item.findAll({
             where: {
-                name: {
-                    [Op.like]: `%${req.params.name}%`
-                }
+                [Op.or]: [
+                    { name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('name')), 'LIKE', `%${req.params.name.toLowerCase()}%`)
+                    },
+                    { description: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('description')), 'LIKE', `%${req.params.name.toLowerCase()}%`)
+                    },
+                ]
             },
             include: [
                 {

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
+import Login from "./Login.jsx"
 
 const Header = () => {
 
@@ -49,11 +50,12 @@ const Header = () => {
                 >Logout</NavLink>
             </button>}
 
-            {!user && <button className="nav-btn">
+            {/* {!user && <button className="nav-btn">
                 <NavLink 
                     to='/'
                 >Login</NavLink>
-            </button>}
+            </button>} */}
+            {!user && <Login />}
 
         </div>
     )
