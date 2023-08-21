@@ -29,6 +29,7 @@ const {
 } = userFunctions
 
 const {
+    getItemsWithRatings,
     getTenItems,
     getItemByName,
     getUserItems,

@@ -26,7 +26,7 @@ while (i < 11) {
 
     await newUser.createItem({
         name: `Item${i}`,
-        description: `Description for Item #${i}`,
+        description: `Item${i}'s Description for is Item #${i}`,
         imgUrl: 'itemImage',
     })
 

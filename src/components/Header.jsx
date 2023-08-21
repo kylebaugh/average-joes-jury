@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
+import Login from './Login'
 
 const Header = () => {
 
@@ -12,9 +13,9 @@ const Header = () => {
         await axios.get('/sessionCheck')
             .then(res => {
                 if (res.data.user) {
-                    dispatch({ 
-                        type: 'authenticated', 
-                        payload: res.data.user.userId 
+                    dispatch({
+                        type: 'authenticated',
+                        payload: res.data.user.userId
                     })
                     console.log(res.data.user)
                 } else {
@@ -43,17 +44,14 @@ const Header = () => {
             </button>
 
             {user && <button className="nav-btn">
-                <NavLink 
+                <NavLink
                     to='/'
                     onClick={logout}
                 >Logout</NavLink>
             </button>}
 
-            {!user && <button className="nav-btn">
-                <NavLink 
-                    to='/'
-                >Login</NavLink>
-            </button>}
+
+            {!user && <Login/>}
 
         </div>
     )

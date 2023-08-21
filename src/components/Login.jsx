@@ -8,18 +8,17 @@ const Login = () => {
     const navigate = useNavigate()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault()
-        
+
         await axios.post('login', { username, password })
             .then(res => {
                 console.log(res.data)
-                dispatch({ 
-                    type: 'authenticated', 
-                    payload: res.data.user.userId 
+                dispatch({
+                    type: 'authenticated',
+                    payload: res.data.user.userId
                 })
-                navigate('/')
             })
             .catch(err => {
                 console.log(err)
@@ -32,20 +31,20 @@ const Login = () => {
         <div>
             <form onSubmit={handleSubmit}>
 
-                Username: 
-                <input 
-                    placeholder="Username" 
-                    value={username} 
+                Username:
+                <input
+                    placeholder="Username"
+                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 />
 
-                Password: 
-                <input 
-                    placeholder="Password" 
-                    value={password} 
+                Password:
+                <input
+                    placeholder="Password"
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                
+
                 <button>Login</button>
             </form>
         </div>
