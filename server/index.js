@@ -62,7 +62,7 @@ app.put('/user', updateUser)
 // Items
 app.get('/items/ten', getTenItems)
 app.get('/item/:itemName', getItemByName) // get one item by name
-app.get('/items', getUserItems) // get all items
+app.get('/itemsByUser', getUserItems) // get all user items
 app.post('/item', addItem) // add one item
 app.get('/search/:name', searchItem)
 app.put('/item', editItem)

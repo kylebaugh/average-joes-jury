@@ -49,14 +49,14 @@ const itemFunctions = {
     },
 
     getUserItems: async (req, res) => {
-        // console.log(req.session)
-        const user = await User.findOne({
+        
+        const userItems = await Item.findAll({
             where: {
-                userId: req.session.currentProfile.userId
+                userId: req.session.user.userId
             }
             , include: [
                 {
-                    model: Item
+                    model: Rating
                 },
                 {
                     model: User
@@ -64,7 +64,7 @@ const itemFunctions = {
             ]
         })
 
-        res.json(user.items)
+        res.json(userItems)
     },
 
     searchItem: async (req, res) => {

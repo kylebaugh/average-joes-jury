@@ -38,7 +38,10 @@ const authFunctions = {
 
         console.log(req.session.user)
 
-        res.json({ message: 'Login successful', user: user })
+        res.json({  
+            message: 'Login successful', 
+            userId: user.userId 
+        })
 
     },
 
