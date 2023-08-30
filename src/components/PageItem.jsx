@@ -1,24 +1,37 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import { useSelector } from "react-redux"
 import axios from "axios"
+import ReviewForm from "./ReviewForm.jsx"
 
 const PageItem = () => {
 
     const [item, setItem] = useState(null)
     const [ratings, setRatings] = useState([])
+    const [userRating, setUserRating] = useState(null)
+
+    const userId = useSelector(state => state.userId)
+
 
     const { itemId } = useParams()
 
 
     useEffect(() => async () => {
-        const newItem = await axios.get(`/itemapi/${itemId}`)
-        setItem(newItem.data)
-        setRatings(newItem.data.item.ratings)
+        if(userId){
+            const {data} = await axios.get(`/itemapi/${itemId}?userId=${userId}`)
+            setItem(data)
+            setRatings(data.item.ratings)
+            setUserRating(data.userRating)
+        }else{
+            const {data} = await axios.get(`/itemapi/${itemId}`)
+            setItem(data)
+            setRatings(data.item.ratings)
+        }
     }, [])
 
     let reviews = ratings.map((review) => {
         return (
-            <section 
+            <section
                 key={review.ratingId}
                 className="fullReview"
             >
@@ -34,8 +47,19 @@ const PageItem = () => {
     return (
         <div className='pageItem'>Full Page Item
 
-            {item && 
+            {item &&
             <div>
+            {userId &&
+                <section>
+                    {userRating && <ReviewForm
+                        itemId={itemId}
+                        userRating={userRating}
+                    />}
+
+                    {!userRating && <ReviewForm/>}
+                </section>
+
+            }
             <section>
                 <img src={item.item.user.imgUrl} alt="item creator img" />
                 <p>{item.item.name}</p>
@@ -52,8 +76,9 @@ const PageItem = () => {
                 <br></br>
             </section>
             <section> Top Comments:
-                {reviews}     
+                {reviews}
             </section>
+
             </div>
             }
 

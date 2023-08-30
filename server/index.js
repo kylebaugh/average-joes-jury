@@ -35,7 +35,8 @@ const {
     searchItem,
     addItem,
     deleteItem,
-    editItem
+    editItem,
+    getItemRatingsSansUser
 } = itemFunctions
 
 const {
@@ -66,6 +67,7 @@ app.post('/item', addItem) // add one item
 app.get('/search/:name', searchItem)
 app.put('/item', editItem)
 app.delete('/item', deleteItem)
+app.get('/item/ratings/:userId/:itemId', getItemRatingsSansUser)
 
 // Ratings
 app.post('/rating', addRating)
