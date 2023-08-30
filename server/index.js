@@ -2,7 +2,6 @@ import express from 'express'
 import morgan from 'morgan'
 import session from 'express-session'
 import ViteExpress from 'vite-express'
-// import handlerFunctions from './controller.js'
 import userFunctions from './controllers/userController.js'
 import authFunctions from './controllers/authController.js'
 import itemFunctions from './controllers/itemController.js'
@@ -31,7 +30,7 @@ const {
 const {
     getItemsWithRatings,
     getTenItems,
-    getItemByName,
+    getItemById,
     getUserItems,
     searchItem,
     addItem,
@@ -61,8 +60,8 @@ app.put('/user', updateUser)
 
 // Items
 app.get('/items/ten', getTenItems)
-app.get('/item/:itemName', getItemByName) // get one item by name
-app.get('/items', getUserItems) // get all items
+app.get('/itemapi/:itemId', getItemById) // get one item by name
+app.get('/itemsByUser', getUserItems) // get all user items
 app.post('/item', addItem) // add one item
 app.get('/search/:name', searchItem)
 app.put('/item', editItem)

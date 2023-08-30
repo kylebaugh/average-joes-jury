@@ -22,13 +22,13 @@ const userFunctions = {
 
         res.json(profile.rating)
     },
+
     createUser: async (req, res) => {
 
         const { username, password, firstName, lastName, imgUrl } = req.body
 
         const salt = bcryptjs.genSaltSync(5)
         const hash = bcryptjs.hashSync(password, salt)
-
 
         const newUser = await User.create({
             username,
@@ -38,7 +38,14 @@ const userFunctions = {
             imgUrl,
         })
 
-        res.json(newUser)
+        req.session.user = newUser
+
+        console.log(req.session.user)
+
+        res.json({ 
+            message: 'New user created and logged in', 
+            userId: newUser.userId 
+        })
     },
 
     deleteUser: async (req, res) => {

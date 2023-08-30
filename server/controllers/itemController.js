@@ -19,10 +19,9 @@ const itemFunctions = {
         res.json(ten)
     },
 
-    getItemByName: async (req, res) => {
+    getItemById: async (req, res) => {
 
-        let myItem = await Item.findOne({
-            where: { name: req.params.itemName },
+        let myItem = await Item.findByPk(req.params.itemId, {
             include: [
                 {
                     model: Rating
@@ -35,28 +34,25 @@ const itemFunctions = {
 
         req.session.item = myItem
 
-        console.log(myItem)
-
         let totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
 
         res.json({
             item: myItem,
             totalStars: totalStars,
             avg: totalStars / myItem.ratings.length,
-            randomReviews: lodash.sampleSize(myItem.ratings, 2),
          })
 
     },
 
     getUserItems: async (req, res) => {
-        // console.log(req.session)
-        const user = await User.findOne({
+        
+        const userItems = await Item.findAll({
             where: {
-                userId: req.session.currentProfile.userId
+                userId: req.session.user.userId
             }
             , include: [
                 {
-                    model: Item
+                    model: Rating
                 },
                 {
                     model: User
@@ -64,7 +60,7 @@ const itemFunctions = {
             ]
         })
 
-        res.json(user.items)
+        res.json(userItems)
     },
 
     searchItem: async (req, res) => {

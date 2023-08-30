@@ -1,6 +1,7 @@
-
 const initialState = {
-    userId: null
+    userId: null,
+    itemId: null,
+    show: "search",
 }
 
 const reducer = (state=initialState, action) => {
@@ -9,13 +10,26 @@ const reducer = (state=initialState, action) => {
         case 'authenticated':
             return {
                 ...state, 
-                userId: action.payload
+                userId: action.payload,
             }
 
         case 'logout': 
             return {
                 ...state,
-                userId: null
+                userId: null,
+                show: "search",
+            }
+        
+        case 'SET_SHOW':
+            return {
+                ...state,
+                show: action.payload,
+            }
+
+        case 'SET_ITEM':
+            return {
+                ...state,
+                show: action.payload,
             }
 
         default: 

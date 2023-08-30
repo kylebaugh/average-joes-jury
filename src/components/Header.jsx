@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import Login from './Login'
 
 const Header = () => {
@@ -30,6 +30,7 @@ const Header = () => {
             .then(res => {
                 dispatch({ type: 'logout' })
                 console.log('User logged out')
+                dispatch({ type: 'SET_SHOW', payload: 'search'})
             })
     }
 
@@ -39,6 +40,7 @@ const Header = () => {
 
     return (
         <div id="navbar">
+
             <button className='nav-btn'>
                 <NavLink to="/">Home</NavLink>
             </button>
@@ -47,11 +49,11 @@ const Header = () => {
                 <NavLink
                     to='/'
                     onClick={logout}
-                >Logout</NavLink>
+                    >Logout</NavLink>
             </button>}
 
 
-            {!user && <Login/>}
+            {!user && <Login />}
 
         </div>
     )

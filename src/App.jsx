@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import Home from './components/Home.jsx'
-import Header from './components/Header.jsx'
-import Feed from './components/Feed.jsx'
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import Header from './components/Header'
+import Feed from './components/Feed'
+import PageItem from './components/PageItem'
 import './App.css'
 
 function App() {
@@ -11,10 +12,10 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div>App stuff goes here</div>
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/feed' element={<Feed />} />
+        <Route path='/item/:itemId' element={<PageItem />} />
       </Routes>
     </BrowserRouter>
   )

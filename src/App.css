@@ -18,8 +18,6 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
@@ -35,10 +33,52 @@
 }
 
 #navbar a.active {
-  color: green;
+  color: gray;
+}
+
+#navbar {
+  display: flex;
+}
+
+a:hover {
+  cursor: pointer;
 }
 
 .feedItem{
   margin: 1vw;
   border: solid red 2px;
+}
+
+#homepage {
+  display: flex;
+}
+
+#navButtons {
+  border: 1px solid black;
+}
+
+#mainComponents {
+  border: 1px solid black;
+}
+
+#badSubmit {
+  color: red;
+}
+#badPw {
+  color: maroon;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#registerForm {
+  display: flex;
+  flex-direction: column;
 }
