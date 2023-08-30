@@ -40,6 +40,7 @@ const Header = () => {
 
     return (
         <div id="navbar">
+
             <button className='nav-btn'>
                 <NavLink to="/">Home</NavLink>
             </button>
@@ -48,7 +49,7 @@ const Header = () => {
                 <NavLink
                     to='/'
                     onClick={logout}
-                >Logout</NavLink>
+                    >Logout</NavLink>
             </button>}
 
 

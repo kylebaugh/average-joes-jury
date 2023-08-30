@@ -43,7 +43,8 @@ for (const user of users) {
             userId: user.userId,
             itemId: item.itemId,
             stars: lodash.random(1, 5),
-            review: `User${user.userId} thinks this item is ${lodash.sample(WORDS)}`
+            review: `User${user.userId} thinks this item is ${lodash.sample(WORDS)}`,
+            imgUrl: 'ratingImg'
         })
     }
 }

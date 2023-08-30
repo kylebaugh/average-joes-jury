@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom"
 
-const ItemFeed = ({ item, totalStars, avg, randomReviews, feedItem }) => {
+
+const FeedItem = ({ item, totalStars, avg, randomReviews, feedItem }) => {
     avg = +avg
 
     return (
@@ -7,7 +9,9 @@ const ItemFeed = ({ item, totalStars, avg, randomReviews, feedItem }) => {
 
             <section>
                 <img src={item.user.imgUrl} alt="item creator img" />
-                <p>{item.name}</p>
+                <Link to={`/item/${item.itemId}`}
+                >{item.name}
+                </Link>
             </section>
             <section>
                 <img src={item.imgUrl} alt="item img" />
@@ -32,4 +36,4 @@ const ItemFeed = ({ item, totalStars, avg, randomReviews, feedItem }) => {
     )
 }
 
-export default ItemFeed
+export default FeedItem

@@ -59,10 +59,12 @@ const Login = () => {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            console.log(`badSubmit: ${badSubmit}`)
-            setBadSubmit(false)
-        }, 4000)
+        if (badSubmit) {
+            setTimeout(() => {
+                console.log(`badSubmit: ${badSubmit}`)
+                setBadSubmit(false)
+            }, 4000)
+        }
     }, [badSubmit])
 
     return (

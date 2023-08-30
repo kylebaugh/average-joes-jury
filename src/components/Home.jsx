@@ -1,4 +1,4 @@
-import Feed from './Feed.jsx'
+import Feed from './Feed'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Home = () => {
