@@ -47,6 +47,22 @@ a:hover {
 .feedItem{
   margin: 1vw;
   border: solid red 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageItem {
+  margin: 1vw;
+  border: solid orange 2px;
+}
+
+.fullReview {
+  margin: 1vw;
+  border: solid lightskyblue 1px;
+}
+
+img {
+  height: 50px;
 }
 
 #homepage {

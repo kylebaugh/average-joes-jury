@@ -17,7 +17,7 @@ const Login = () => {
         e.preventDefault()
 
         if (login) {
-            await axios.post('login', { username, password })
+            await axios.post('/login', { username, password })
                 .then(res => {
                     dispatch({
                         type: 'authenticated',

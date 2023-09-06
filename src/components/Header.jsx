@@ -17,11 +17,10 @@ const Header = () => {
                         type: 'authenticated',
                         payload: res.data.user.userId
                     })
-                    console.log(res.data.user)
+                    // console.log(res.data.user)
                 } else {
                     console.log(res.data)
                 }
-
             })
     }
 
@@ -45,15 +44,19 @@ const Header = () => {
                 <NavLink to="/">Home</NavLink>
             </button>
 
-            {user && <button className="nav-btn">
+            {user && 
+            <button className="nav-btn">
                 <NavLink
                     to='/'
                     onClick={logout}
                     >Logout</NavLink>
-            </button>}
+            </button>
+            }
 
 
-            {!user && <Login />}
+            {!user && 
+            <Login />
+            }
 
         </div>
     )

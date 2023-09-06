@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import lodash from 'lodash'
 
-const Feed = ({userId}) => {
+const Feed = ({ userId }) => {
 
     const [tenItems, setTenItems] = useState(null)
     const [searchValue, setSearchValue] = useState('')
@@ -52,10 +52,8 @@ const Feed = ({userId}) => {
                         return <FeedItem
                                     key={item.itemId}
                                     item={item}
-                                    feedItem={false}
                                     totalStars={item.ratings.length}
                                     avg={avg}
-                                    randomReviews={randomReviews}
                                 />
                     })}
                 </div>

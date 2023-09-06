@@ -21,13 +21,13 @@ while (i < 11) {
         password: hash,
         firstName: `Fname${i}`,
         lastName: `Lname${i}`,
-        imgUrl: 'image'
+        imgUrl: 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png'
     })
 
     await newUser.createItem({
         name: `Item${i}`,
-        description: `Item${i}'s Description for is Item #${i}`,
-        imgUrl: 'itemImage',
+        description: `User${i}'s Description for Item #${i}`,
+        imgUrl: 'https://w7.pngwing.com/pngs/427/467/png-transparent-gold-crown-treasure-box-cartoon-gold-crown-treasure-thumbnail.png',
     })
 
     i ++
@@ -44,7 +44,7 @@ for (const user of users) {
             itemId: item.itemId,
             stars: lodash.random(1, 5),
             review: `User${user.userId} thinks this item is ${lodash.sample(WORDS)}`,
-            imgUrl: 'ratingImg'
+            imgUrl: 'https://w7.pngwing.com/pngs/602/11/png-transparent-computer-icons-notepad-notebook-notepad-icons-no-attribution-miscellaneous-angle-text-thumbnail.png'
         })
     }
 }

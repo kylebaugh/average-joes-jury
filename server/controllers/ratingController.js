@@ -1,6 +1,5 @@
 import { User, Item, Rating } from "../db/model.js";
 import { Op } from "sequelize";
-import bcryptjs from 'bcryptjs'
 
 const ratingFunctions = {
     addRating: async (req, res) => {
@@ -49,12 +48,12 @@ const ratingFunctions = {
     },
 
     updateRating: async (req, res) => {
-        const {ratingId} = req.params
-        const {stars, review, imgUrl} = req.body
+        const { ratingId } = req.params
+        const { stars, review, imgUrl } = req.body
 
         const rating = await Rating.findByPk(ratingId)
 
-        if(!req.session.user){
+        if(!req.session.user) {
             res.json('You must be logged in')
             return
         }
@@ -69,7 +68,20 @@ const ratingFunctions = {
         }else{
             res.json("You don't have permission to delete this item")
         }
-    }
+    },
+
+    getRatingsSansUser: async (req, res) => {
+
+        let ratings = await Rating.findAll({
+            where: {
+                [Op.not]: {
+                    userId: req.params.userId
+                }
+            }
+        })
+
+        res.json(ratings)
+    },
 }
 
 export default ratingFunctions

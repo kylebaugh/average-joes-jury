@@ -1,7 +1,11 @@
 import { User, Item, Rating, db } from "./db/model.js";
 
-const i5 = await Item.findByPk(5)
+const u = await Rating.findAll({
+    where: {
+        userId: 2,
+        itemId: 10,
+    }
+})
 
-console.log(await i5.getRatings())
 
-
+console.log(u)

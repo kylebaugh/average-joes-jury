@@ -35,13 +35,15 @@ const {
     searchItem,
     addItem,
     deleteItem,
-    editItem
+    editItem,
+    getItemRatingsSansUser,
 } = itemFunctions
 
 const {
     addRating,
     updateRating,
-    deleteRating
+    deleteRating,
+    getRatingsSansUser,
 } = ratingFunctions
 
 const {
@@ -66,11 +68,13 @@ app.post('/item', addItem) // add one item
 app.get('/search/:name', searchItem)
 app.put('/item', editItem)
 app.delete('/item', deleteItem)
+app.get('/item/ratings/:userId/:itemId', getItemRatingsSansUser)
 
 // Ratings
 app.post('/rating', addRating)
 app.put('/rating/:ratingId', updateRating)
 app.delete('/rating/:ratingId', deleteRating)
+app.get('/ratings/:userId', getRatingsSansUser)
 
 // Authentication
 app.post('/login', login)
