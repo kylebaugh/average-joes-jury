@@ -1,6 +1,5 @@
 import { User, Item, Rating } from "../db/model.js";
-import { Op } from "sequelize";
-import bcryptjs from 'bcryptjs'
+
 
 const ratingFunctions = {
     addRating: async (req, res) => {
@@ -23,9 +22,13 @@ const ratingFunctions = {
             review,
             imgUrl,
             itemId: myItem.itemId,
+            userId: user.userId
         })
 
-        res.json(newRating)
+        res.json({
+            message: 'rating added',
+            newRating
+        })
     },
 
     deleteRating: async (req, res) => {

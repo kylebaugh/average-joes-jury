@@ -4,24 +4,41 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 
 const ReviewForm = ({itemId, userRating}) => {
-
     const [stars, setStars] = useState(0)
     const [review, setReview] = useState('')
     const [imgUrl, setImgUrl] = useState('')
     const [editMode, setEditMode] = useState(false)
     const userId = useSelector(state => state.userId)
 
+
     const submitHandler = async (e) => {
         e.preventDefault()
-        let body = {
-            stars,
-            review,
-            imgUrl,
-            userId,
-            itemId
-        }
-        await axios.post('/rating', body)
 
+        if(userRating === undefined){
+            // console.log('no user rating -- POST request')
+            let body = {
+                stars,
+                review,
+                imgUrl,
+                userId,
+                itemId
+            }
+
+            await axios.post('/rating', body)
+
+        } else {
+            // console.log('user rating exists -- PUT request')
+            const body = {
+                stars,
+                review,
+                imgUrl
+            }
+
+            await axios.put(`/rating/${userRating.ratingId}`, body)
+
+        }
+
+        toggleEdit()
     }
 
     useEffect(() => {
@@ -30,7 +47,8 @@ const ReviewForm = ({itemId, userRating}) => {
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-    }, [editMode])
+    }, [userRating])
+
 
     const toggleEdit = () => {
         setEditMode(!editMode)
@@ -41,11 +59,15 @@ const ReviewForm = ({itemId, userRating}) => {
         <div>
 
             {userId && !editMode && <section>
-                <button onClick={toggleEdit}>Edit</button>
-                    <p>User: {userId}</p>
-                    <p>Stars: {stars}</p>
-                    <p>Review: {review}</p>
-                    <img src={imgUrl} />
+                    {userRating && <>
+                        <button onClick={toggleEdit}>Edit Review</button>
+                            <p>User: {userId}</p>
+                            <p>Stars: {stars}</p>
+                            <p>Review: {review}</p>
+                            <img src={imgUrl} />
+                    </>}
+
+                    {!userRating && <button onClick={toggleEdit}>Add Review</button>}
                 </section>}
 
             {userId && editMode &&

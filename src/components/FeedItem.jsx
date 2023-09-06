@@ -5,10 +5,11 @@ const FeedItem = ({ item, totalStars, avg, randomReviews, feedItem }) => {
     avg = +avg
 
     return (
-        <div className='feedItem'>Item on Feed
+        <div className='feedItem'>
 
             <section>
                 <img src={item.user.imgUrl} alt="item creator img" />
+                <br />
                 <Link to={`/item/${item.itemId}`}
                 >{item.name}
                 </Link>

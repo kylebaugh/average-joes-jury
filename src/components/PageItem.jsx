@@ -9,14 +9,14 @@ const PageItem = () => {
     const [item, setItem] = useState(null)
     const [ratings, setRatings] = useState([])
     const [userRating, setUserRating] = useState(null)
+    const [num, setNum] = useState(0)
 
     const userId = useSelector(state => state.userId)
 
-
     const { itemId } = useParams()
 
-
-    useEffect(() => async () => {
+    const scotty = async () => {
+        console.log('USER ID ' + userId)
         if(userId){
             const {data} = await axios.get(`/itemapi/${itemId}?userId=${userId}`)
             setItem(data)
@@ -27,7 +27,13 @@ const PageItem = () => {
             setItem(data)
             setRatings(data.item.ratings)
         }
-    }, [])
+    }
+
+
+    useEffect( () => {
+        scotty()
+    }, [userId])
+
 
     let reviews = ratings.map((review) => {
         return (
@@ -49,32 +55,40 @@ const PageItem = () => {
 
             {item &&
             <div>
-            {userId &&
-                <section>
-                    {userRating && <ReviewForm
-                        itemId={itemId}
-                        userRating={userRating}
-                    />}
+                <section id='userItem'>
+                    {userId &&
+                        <section>
+                            {userRating && <ReviewForm
+                                itemId={itemId}
+                                userRating={userRating}
+                                setUserRating={setUserRating}
+                                ratings={ratings}
+                                addRating={setRatings}
+                                num={num}
+                                setNum={setNum}
+                                scotty={scotty}
+                            />}
 
-                    {!userRating && <ReviewForm/>}
+                            {!userRating && <ReviewForm/>}
+                        </section>}
+
+                        <section>
+                            <img src={item.item.user.imgUrl} alt="item creator img" />
+                            <p>{item.item.name}</p>
+                        </section>
+                        <section>
+                            <img src={item.item.imgUrl} alt="item img" />
+                            <p>{item.item.description}</p>
+                        </section>
+                        <section>
+                            Average Rating: {+(item.avg).toFixed(2)}
+                            <br />
+                            Total Ratings: {+item.totalStars}
+                            <br></br>
+                            <br></br>
+                        </section>
                 </section>
 
-            }
-            <section>
-                <img src={item.item.user.imgUrl} alt="item creator img" />
-                <p>{item.item.name}</p>
-            </section>
-            <section>
-                <img src={item.item.imgUrl} alt="item img" />
-                <p>{item.item.description}</p>
-            </section>
-            <section>
-                Average Rating: {+(item.avg).toFixed(2)}
-                <br />
-                Total Ratings: {+item.totalStars}
-                <br></br>
-                <br></br>
-            </section>
             <section> Top Comments:
                 {reviews}
             </section>
