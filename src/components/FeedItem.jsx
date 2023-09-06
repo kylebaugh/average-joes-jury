@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 
-const FeedItem = ({ item, totalStars, avg, randomReviews, feedItem }) => {
+const FeedItem = ({ item, totalStars, avg }) => {
     avg = +avg
 
     return (
@@ -18,19 +18,13 @@ const FeedItem = ({ item, totalStars, avg, randomReviews, feedItem }) => {
                 <img src={item.imgUrl} alt="item img" />
                 <p>{item.description}</p>
             </section>
-            {feedItem && <section>
+            <section>
                 Average Rating: {+avg.toFixed(2)}
                 <br />
                 Total Ratings: {+totalStars}
                 <br></br>
                 <br></br>
-            </section>}
-            {feedItem &&  <section>
-                Top Comments:
-                <br></br>
-                - {randomReviews[0].review}<br></br>
-                - {randomReviews[1].review}
-            </section>}
+            </section>
 
         </div>
 
