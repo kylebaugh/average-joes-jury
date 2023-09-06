@@ -48,14 +48,11 @@ const Feed = ({userId}) => {
                     {tenItems.map(item => {
                         let totalStars = item.ratings.reduce((a, c) => a + c.stars, 0)
                         let avg = totalStars / item.ratings.length
-                        let randomReviews = lodash.sampleSize(item.ratings, 2)
                         return <FeedItem
                                     key={item.itemId}
                                     item={item}
-                                    feedItem={false}
                                     totalStars={item.ratings.length}
                                     avg={avg}
-                                    randomReviews={randomReviews}
                                 />
                     })}
                 </div>

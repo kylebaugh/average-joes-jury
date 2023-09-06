@@ -47,6 +47,8 @@ a:hover {
 .feedItem{
   margin: 1vw;
   border: solid red 2px;
+  display: flex;
+  flex-direction: column;
 }
 
 #homepage {
@@ -81,4 +83,17 @@ form {
 #registerForm {
   display: flex;
   flex-direction: column;
+}
+
+.fullReview{
+  border: 1px green solid;
+  margin: 5px;
+}
+
+img{
+  height: 50px;
+}
+
+#userItem{
+  border: 1px solid purple;
 }

@@ -21,16 +21,49 @@ const itemFunctions = {
 
     getItemById: async (req, res) => {
 
-        let myItem = await Item.findByPk(req.params.itemId, {
-            include: [
-                {
-                    model: Rating
-                },
-                {
-                    model: User
-                },
-            ]
-        })
+        let myItem;
+        let userRating;
+
+        if (req.query.userId) {
+            console.log('HIT HERE BOIIII')
+
+            myItem = await Item.findByPk(req.params.itemId, {
+                include: [
+                    {
+                        model: Rating,
+                        where: {
+                            [Op.not]: { userId: req.query.userId }
+                        }
+                    },
+                    {
+                        model: User
+                    },
+                ]
+            })
+
+            userRating = await Rating.findOne({
+                where: {
+                    [Op.and]: [
+                        { userId: req.query.userId },
+                        { itemId: req.params.itemId}
+                    ]
+                }
+            })
+
+        } else {
+
+            myItem = await Item.findByPk(req.params.itemId, {
+                include: [
+                    {
+                        model: Rating,
+                    },
+                    {
+                        model: User
+                    },
+                ]
+            })
+
+        }
 
         req.session.item = myItem
 
@@ -40,12 +73,44 @@ const itemFunctions = {
             item: myItem,
             totalStars: totalStars,
             avg: totalStars / myItem.ratings.length,
+            userRating: userRating,
          })
 
     },
 
+    getItemRatingsSansUser: async (req, res) => {
+
+        const itemRatings = await Rating.findAll({
+            where: {
+                [Op.and]: [
+                    {
+                        [Op.not]: {
+                            userId: req.params.userId
+                        }
+                    },
+                    {itemId: req.params.itemId}
+                ]
+            }
+        })
+
+        const userRating = await Rating.findOne({
+            where: {
+                [Op.and]: [
+                    {
+                        userId: req.params.userId
+                    },
+                    {
+                        itemId: req.params.itemId
+                    }
+                ]
+            }
+        })
+
+        res.json({itemRatings, userRating})
+    },
+
     getUserItems: async (req, res) => {
-        
+
         const userItems = await Item.findAll({
             where: {
                 userId: req.session.user.userId

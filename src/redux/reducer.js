@@ -6,20 +6,20 @@ const initialState = {
 
 const reducer = (state=initialState, action) => {
     switch(action.type) {
-        
+
         case 'authenticated':
             return {
-                ...state, 
+                ...state,
                 userId: action.payload,
             }
 
-        case 'logout': 
+        case 'logout':
             return {
                 ...state,
                 userId: null,
                 show: "search",
             }
-        
+
         case 'SET_SHOW':
             return {
                 ...state,
@@ -32,7 +32,7 @@ const reducer = (state=initialState, action) => {
                 show: action.payload,
             }
 
-        default: 
+        default:
             return state
     }
 }
