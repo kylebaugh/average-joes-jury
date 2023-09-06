@@ -19,7 +19,7 @@ const FeedItem = ({ item, totalStars, avg }) => {
                 <p>{item.description}</p>
             </section>
             <section>
-                Average Rating: {+avg.toFixed(2)}
+                Average Rating: {+avg.toFixed(2) || 'N/A'}
                 <br />
                 Total Ratings: {+totalStars}
                 <br></br>

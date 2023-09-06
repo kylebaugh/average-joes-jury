@@ -1,6 +1,5 @@
 import { User, Item, Rating } from "../db/model.js";
 import { Op, Sequelize } from "sequelize";
-import lodash from "lodash";
 
 const itemFunctions = {
 
@@ -159,15 +158,33 @@ const itemFunctions = {
 
         const { name, description, imgUrl } = req.body
 
-        const user = await User.findByPk(req.session.user.userId)
-
-        const newItem = await user.createItem({
-            name,
-            description,
-            imgUrl,
+        const items = await Item.findAll({
+            where: {
+                name: Sequelize.where(Sequelize.fn('LOWER', Sequelize.col('name')), 'LIKE', `%${name.toLowerCase()}%`)
+            },
         })
 
-        res.json(newItem)
+        if(items.length > 0){
+            res.send({
+                code: 400,
+                message: 'Duplicate name!'})
+            return
+
+        } else{
+            console.log(imgUrl)
+
+            const user = await User.findByPk(req.session.user.userId)
+
+            const newItem = await user.createItem({
+                name,
+                description,
+                imgUrl: imgUrl || 'https://w7.pngwing.com/pngs/427/467/png-transparent-gold-crown-treasure-box-cartoon-gold-crown-treasure-thumbnail.png',
+            })
+
+            res.json({
+                code: 200,
+                newItem})
+        }
     },
 
     deleteItem: async (req, res) => {
