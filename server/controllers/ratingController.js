@@ -82,6 +82,37 @@ const ratingFunctions = {
 
         res.json(ratings)
     },
+
+    getAllUserRatings: async (req, res) => {
+
+        let ratings = await Rating.findAll({
+            where: {
+                userId: req.params.userId
+            },
+            include: {
+                model: Item
+            }
+        })
+
+        let ratingsAndInfo = []
+
+        const itemRatings = async () => {
+            for (let rating of ratings) {
+                let itemRatings = await rating.item.getRatings()
+                let totalStars = itemRatings.reduce((a, c) => a + c.stars, 0)
+                ratingsAndInfo.push({
+                    rating: rating,
+                    item: rating.item,
+                    totalStars: totalStars,
+                    totalRatings: itemRatings.length
+                })
+            }
+        }
+
+        await itemRatings()
+
+        res.json(ratingsAndInfo)
+    }
 }
 
 export default ratingFunctions

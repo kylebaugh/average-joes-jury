@@ -1,4 +1,5 @@
 import Feed from './Feed'
+import MyReviews from './MyReviews'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Home = () => {
@@ -26,7 +27,7 @@ const Home = () => {
             <section id="mainComponents">
                 {show === "search" && <Feed />}
                 {show === "items" && <Feed userId={userId} />}
-                {show === "reviews" && <h3>User reviews will go here</h3>}
+                {show === "reviews" && <MyReviews userId={userId}/>}
                 {show === "addItem" && <h3>Add item form will go here</h3>}
             </section>
 

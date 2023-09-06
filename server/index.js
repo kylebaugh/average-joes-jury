@@ -44,6 +44,7 @@ const {
     updateRating,
     deleteRating,
     getRatingsSansUser,
+    getAllUserRatings,
 } = ratingFunctions
 
 const {
@@ -75,6 +76,7 @@ app.post('/rating', addRating)
 app.put('/rating/:ratingId', updateRating)
 app.delete('/rating/:ratingId', deleteRating)
 app.get('/ratings/:userId', getRatingsSansUser)
+app.get('/allRatings/:userId', getAllUserRatings)
 
 // Authentication
 app.post('/login', login)
