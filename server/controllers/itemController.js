@@ -30,7 +30,8 @@ const itemFunctions = {
                         model: Rating,
                         where: {
                             [Op.not]: { userId: req.query.userId }
-                        }
+                        },
+                        required: false
                     },
                     {
                         model: User
@@ -47,27 +48,27 @@ const itemFunctions = {
                 }
             })
 
-        } else {
-
-            myItem = await Item.findByPk(req.params.itemId, {
-                include: [
-                    {
-                        model: Rating,
-                    },
-                    {
-                        model: User
-                    },
-                ]
-            })
-
         }
 
+        const allReviews = await Item.findByPk(req.params.itemId, {
+            include: [
+                {
+                    model: Rating,
+                },
+                {
+                    model: User
+                },
+            ]
+        })
+
+
+
         req.session.item = myItem
-      
+
         let totalStars = 0
-        
-        if (myItem.ratings.length > 0) {
-            totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
+
+        if (allReviews.ratings.length > 0) {
+            totalStars = allReviews.ratings.reduce((a, c) => a + c.stars, 0)
         }
 
         res.json({

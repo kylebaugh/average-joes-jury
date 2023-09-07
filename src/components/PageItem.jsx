@@ -11,7 +11,7 @@ const PageItem = () => {
     const [userRating, setUserRating] = useState(null)
     const { itemId } = useParams()
     const userId = useSelector(state => state.userId)
-    
+
     const scotty = async () => {
         if (userId) {
             const { data } = await axios.get(`/itemapi/${itemId}?userId=${userId}`)
@@ -24,7 +24,7 @@ const PageItem = () => {
             setRatings(data.item.ratings)
         }
     }
-    
+
     useEffect(() => {
         scotty()
     }, [userId])
@@ -64,24 +64,24 @@ const PageItem = () => {
                 <br></br>
                 <br></br>
             </section>
-                {userId && 
+                {userId &&
                     <section>
                     {userRating &&
-                        <ReviewForm 
-                            itemId={itemId} 
+                        <ReviewForm
+                            itemId={itemId}
                             userRating={userRating}
                             setUserRating={setUserRating}
-                        /> 
+                        />
                     }
-                    {!userRating && 
-                        <ReviewForm 
+                    {!userRating &&
+                        <ReviewForm
                             setUserRating={setUserRating}
-                        /> 
+                        />
                     }
                     </section>
                 }
             <section className="topComments"> Top Comments:
-                {reviews}     
+                {reviews}
             </section>
 
             </div>

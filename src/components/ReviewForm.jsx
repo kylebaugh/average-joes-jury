@@ -26,7 +26,8 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 itemId
             })
             console.log("new post")
-            setUserRating(data)
+            console.log(data)
+            setUserRating(data.rating)
 
         } else {
             let { data } = await axios.put(`/rating/${userRating.ratingId}`, {
@@ -35,7 +36,9 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 imgUrl,
             })
             console.log("edit put")
-            setUserRating(data)
+            console.log(data)
+
+            setUserRating(data.rating)
         }
 
         toggleEdit()
@@ -54,17 +57,17 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-      }, [userRating, editMode])
+      }, [userRating, editMode, setUserRating])
 
     return (
         <div className="pageItem">
             {userId && editMode &&
                 <section>
-                    
+
                     <form onSubmit={submitHandler}>
                         <section>Stars
-                            <select 
-                                name="stars" 
+                            <select
+                                name="stars"
                                 id="stars"
                                 onChange={(e) => setStars(e.target.value)}
                                 defaultValue={stars}
@@ -77,15 +80,15 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                             </select>
                         </section>
                         <section>Review
-                            <textarea 
+                            <textarea
                                 rows={5}
                                 onChange={(e) => setReview(e.target.value)}
                                 defaultValue={review}
                                 />
                         </section>
                         <section>Image URL
-                            <input 
-                                type="text" 
+                            <input
+                                type="text"
                                 onChange={(e) => setImgUrl(e.target.value)}
                                 defaultValue={imgUrl}
                                 />
@@ -100,9 +103,9 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                     </button>
                 </section>
             }
-            {userId && !editMode && 
+            {userId && !editMode &&
                 <section>
-                    {userRating && 
+                    {userRating &&
                     <>
                     <section>
                         <h4>Your Rating:</h4>
@@ -120,7 +123,7 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                     </section>
                     </>
                     }
-                    {!userRating && 
+                    {!userRating &&
                         <button
                             onClick={toggleEdit}
                         >Add A Review
