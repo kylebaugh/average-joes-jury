@@ -38,9 +38,8 @@ const userFunctions = {
             imgUrl,
         })
 
-        req.session.user = newUser
-
-        console.log(req.session.user)
+        // req.session.user = newUser
+        // console.log(req.session.user)
 
         res.json({ 
             message: 'New user created and logged in', 

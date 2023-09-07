@@ -1,9 +1,8 @@
 import FeedItem from "./FeedItem.jsx";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import lodash from 'lodash'
 
-const Feed = ({userId}) => {
+const Feed = ({ userId }) => {
 
     const [tenItems, setTenItems] = useState(null)
     const [searchValue, setSearchValue] = useState('')
@@ -63,32 +62,3 @@ const Feed = ({userId}) => {
 }
 
 export default Feed
-
-
-
-
-
-    // const [item, setItem] = useState(null)
-    // const [feedItem, setFeed] = useState(true)
-    // const [totalStars, setTotalStars] = useState(0)
-    // const [avg, setAvg] = useState(0)
-    // const [randomReviews, setRandomReviews] = useState('')
-
-    // const getRandomItem = async () => {
-    //     await axios.get(`/item/Item${lodash.random(1, 10)}`)
-    //         .then((res) => {
-    //             // console.log(`res.data: ${res.data.item.user.imgUrl}`)
-    //             setItem(res.data.item)
-    //             setTotalStars(res.data.totalStars)
-    //             setAvg(res.data.avg)
-    //             setRandomReviews(res.data.randomReviews)
-    //         })
-    // }
-
-
-                {/* {item && <FeedItem
-                item={item}
-                totalStars={totalStars}
-                avg={avg}
-                randomReviews={randomReviews}
-            />} */}

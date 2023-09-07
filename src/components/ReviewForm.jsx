@@ -1,44 +1,51 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import axios from 'axios'
 
-const ReviewForm = ({itemId, userRating}) => {
-    const [stars, setStars] = useState(1)
-    const [review, setReview] = useState('')
-    const [imgUrl, setImgUrl] = useState('')
-    const [editMode, setEditMode] = useState(false)
+import { useState, useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import axios from "axios"
+
+const ReviewForm = ({ itemId, userRating, setUserRating }) => {
+
+    const editMode = useSelector(state => state.editMode)
+    const dispatch = useDispatch()
+
+    const [stars, setStars] = useState("1")
+    const [review, setReview] = useState("")
+    const [imgUrl, setImgUrl] = useState("")
+
     const userId = useSelector(state => state.userId)
-
 
     const submitHandler = async (e) => {
         e.preventDefault()
 
-        if(userRating === undefined){
-            // console.log('no user rating -- POST request')
-            let body = {
+        if (userRating === undefined) {
+            let { data } = await axios.post("/rating", {
                 stars,
                 review,
                 imgUrl,
                 userId,
                 itemId
-            }
-
-            await axios.post('/rating', body)
+            })
+            console.log("new post")
+            setUserRating(data)
 
         } else {
-            // console.log('user rating exists -- PUT request')
-            const body = {
+            let { data } = await axios.put(`/rating/${userRating.ratingId}`, {
                 stars,
                 review,
-                imgUrl
-            }
-
-            await axios.put(`/rating/${userRating.ratingId}`, body)
-
+                imgUrl,
+            })
+            console.log("edit put")
+            setUserRating(data)
         }
 
         toggleEdit()
+    }
+
+    const toggleEdit = () => {
+        dispatch({
+            type: 'SET_EDIT_MODE',
+            payload: !editMode,
+        })
     }
 
     useEffect(() => {
@@ -47,81 +54,80 @@ const ReviewForm = ({itemId, userRating}) => {
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-    }, [userRating])
-
-
-    const toggleEdit = () => {
-        setEditMode(!editMode)
-    }
-
+      }, [userRating, editMode])
 
     return (
-        <div>
-
-            {userId && !editMode && <section>
-                    {userRating && <>
-                        <button onClick={toggleEdit}>Edit Review</button>
-                            <p>User: {userId}</p>
-                            <p>Stars: {stars}</p>
-                            <p>Review: {review}</p>
-                            <img src={imgUrl} />
-                    </>}
-
-                    {!userRating && <button onClick={toggleEdit}>Add Review</button>}
-                </section>}
-
+        <div className="pageItem">
             {userId && editMode &&
                 <section>
-                    <button onClick={toggleEdit}>Cancel</button>
-                    <form>
-                        <section>
-                            <p>Stars</p>
-                            <select
-                                name="starForm"
-                                id="starForm"
+                    
+                    <form onSubmit={submitHandler}>
+                        <section>Stars
+                            <select 
+                                name="stars" 
+                                id="stars"
                                 onChange={(e) => setStars(e.target.value)}
                                 defaultValue={stars}
-                                >
-                                <option value='1'>⭐️</option>
-                                <option value='2'>⭐️⭐️</option>
-                                <option value='3'>⭐️⭐️⭐️</option>
-                                <option value='4'>⭐️⭐️⭐️⭐️</option>
-                                <option value='5'>⭐️⭐️⭐️⭐️⭐️</option>
+                            >
+                                <option value="1">⭐️</option>
+                                <option value="2">⭐️⭐️</option>
+                                <option value="3">⭐️⭐️⭐️</option>
+                                <option value="4">⭐️⭐️⭐️⭐️</option>
+                                <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
                             </select>
                         </section>
-                        <section>
-                            <p>Review</p>
-                            <input placeholder='Enter Review' onChange={(e) => setReview(e.target.value)} value={review}/>
+                        <section>Review
+                            <textarea 
+                                rows={5}
+                                onChange={(e) => setReview(e.target.value)}
+                                defaultValue={review}
+                                />
+                        </section>
+                        <section>Image URL
+                            <input 
+                                type="text" 
+                                onChange={(e) => setImgUrl(e.target.value)}
+                                defaultValue={imgUrl}
+                                />
                         </section>
                         <section>
-                            <p></p>
-                            <input placeholder='Enter Image URL' onChange={(e) => setImgUrl(e.target.value)} value={imgUrl}/>
+                            <input type="submit" />
                         </section>
-                        <button onClick={submitHandler}>Submit</button>
                     </form>
-                </section>}
+                    <button
+                        onClick={toggleEdit}
+                    >Cancel
+                    </button>
+                </section>
+            }
+            {userId && !editMode && 
+                <section>
+                    {userRating && 
+                    <>
+                    <section>
+                        <h4>Your Rating:</h4>
+                        <p>User: {userId}</p>
+                        <p>Stars: {stars}</p>
+                        <p>Review: {review}</p>
+                        <img src={imgUrl}></img>
+                    </section>
+                    <section>
 
-            {/* {!userId && <form>
-                <section>
-                    <p>Stars</p>
-                    <select name="starForm" id="starForm" onChange={(e) => setStars(e.target.value)}>
-                        <option value={stars}>⭐️</option>
-                        <option value={stars}>⭐️⭐️</option>
-                        <option value={stars}>⭐️⭐️⭐️</option>
-                        <option value={stars}>⭐️⭐️⭐️⭐️</option>
-                        <option value={stars}>⭐️⭐️⭐️⭐️⭐️</option>
-                    </select>
+                        <button
+                            onClick={toggleEdit}
+                        >Edit Rating
+                        </button>
+                    </section>
+                    </>
+                    }
+                    {!userRating && 
+                        <button
+                            onClick={toggleEdit}
+                        >Add A Review
+                        </button>
+                    }
                 </section>
-                <section>
-                    <p>Review</p>
-                    <input placeholder='Enter Review' onChange={(e) => setReview(e.target.value)} value={review}/>
-                </section>
-                <section>
-                    <p></p>
-                    <input placeholder='Enter Image URL' onChange={(e) => setImgUrl(e.target.value)} value={imgUrl}/>
-                </section>
-                <button onClick={submitHandler}>Submit</button>
-            </form>} */}
+            }
 
 
         </div>

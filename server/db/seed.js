@@ -26,7 +26,7 @@ while (i < 11) {
 
     await newUser.createItem({
         name: `Item${i}`,
-        description: `Item${i}'s Description for is Item #${i}`,
+        description: `User${i}'s Description for Item #${i}`,
         imgUrl: 'https://w7.pngwing.com/pngs/427/467/png-transparent-gold-crown-treasure-box-cartoon-gold-crown-treasure-thumbnail.png',
     })
 

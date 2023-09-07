@@ -51,6 +51,25 @@ a:hover {
   flex-direction: column;
 }
 
+.pageItem {
+  margin: 1vw;
+  border: solid orange 2px;
+}
+
+.fullReview {
+  margin: 1vw;
+  border: solid lightskyblue 1px;
+}
+
+.feedReview {
+  margin: 1vw;
+  border: dotted darkmagenta 2px;
+}
+
+img {
+  height: 50px;
+}
+
 #homepage {
   display: flex;
 }

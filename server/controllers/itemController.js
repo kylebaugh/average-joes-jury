@@ -19,12 +19,10 @@ const itemFunctions = {
     },
 
     getItemById: async (req, res) => {
-
         let myItem;
         let userRating;
 
         if (req.query.userId) {
-            console.log('HIT HERE BOIIII')
 
             myItem = await Item.findByPk(req.params.itemId, {
                 include: [
@@ -65,9 +63,10 @@ const itemFunctions = {
         }
 
         req.session.item = myItem
-
+      
         let totalStars = 0
-        if(myItem.ratings.length > 0){
+        
+        if (myItem.ratings.length > 0) {
             totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
         }
 
@@ -119,7 +118,7 @@ const itemFunctions = {
             }
             , include: [
                 {
-                    model: Rating
+                    model: Rating,
                 },
                 {
                     model: User
@@ -128,6 +127,35 @@ const itemFunctions = {
         })
 
         res.json(userItems)
+    },
+
+    getItemRatingsSansUser: async (req, res) => {
+
+        const itemRatings = await Rating.findAll({
+            where: {
+                [Op.and]: [
+                    {
+                        [Op.not]: {
+                        userId: req.params.userId
+                        }
+                    },
+                    {
+                        itemId: req.params.itemId
+                    },
+                ]
+            }
+        })
+
+        const userRating = await Rating.findOne({
+            where: {
+                [Op.and]: [
+                    { userId: req.params.userId },
+                    { itemId: req.params.itemId}
+                ]
+            }
+        })
+
+        res.json({itemRatings, userRating})
     },
 
     searchItem: async (req, res) => {

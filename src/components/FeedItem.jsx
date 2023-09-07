@@ -11,15 +11,19 @@ const FeedItem = ({ item, totalStars, avg }) => {
 
             <section>
                 <img src={item.user.imgUrl} alt="item creator img" />
-                <br />
-                <Link to={`/item/${item.itemId}`}
-                >{item.name}
-                </Link>
+                <h2>
+                    <Link to={`/item/${item.itemId}`}
+                    >{item.name}
+                    </Link>
+                </h2>
+
             </section>
+
             <section>
                 <img src={item.imgUrl} alt="item img" />
                 <p>{item.description}</p>
             </section>
+
             <section>
                 Average Rating: {+avg.toFixed(2) || 'N/A'}
                 <br />

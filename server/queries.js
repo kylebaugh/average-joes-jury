@@ -1,7 +1,11 @@
+import { Sequelize, Op } from "sequelize";
 import { User, Item, Rating, db } from "./db/model.js";
 
-const i5 = await Item.findByPk(5)
+const user = await User.findByPk(2)
 
-console.log(await i5.getRatings())
+const newR = await user.createRating({
+    
+})
 
 
+console.log(newR)
