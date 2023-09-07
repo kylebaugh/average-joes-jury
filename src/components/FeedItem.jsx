@@ -2,7 +2,9 @@ import { Link } from "react-router-dom"
 
 
 const FeedItem = ({ item, totalStars, avg }) => {
-    avg = +avg
+    if(avg){
+        avg = +avg
+    }
 
     return (
         <div className='feedItem'>
@@ -19,7 +21,7 @@ const FeedItem = ({ item, totalStars, avg }) => {
                 <p>{item.description}</p>
             </section>
             <section>
-                Average Rating: {+avg.toFixed(2)}
+                Average Rating: {+avg.toFixed(2) || 'N/A'}
                 <br />
                 Total Ratings: {+totalStars}
                 <br></br>
