@@ -43,6 +43,7 @@ const PageItem = () => {
             </section>
         )
     })
+    console.log(item)
 
     return (
         <div className='pageItem'>Full Page Item

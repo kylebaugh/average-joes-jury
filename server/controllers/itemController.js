@@ -50,7 +50,7 @@ const itemFunctions = {
 
         }
 
-        const allReviews = await Item.findByPk(req.params.itemId, {
+        const theItem = await Item.findByPk(req.params.itemId, {
             include: [
                 {
                     model: Rating,
@@ -61,20 +61,18 @@ const itemFunctions = {
             ]
         })
 
-
-
-        req.session.item = myItem
+        req.session.item = myItem || theItem
 
         let totalStars = 0
 
-        if (allReviews.ratings.length > 0) {
-            totalStars = allReviews.ratings.reduce((a, c) => a + c.stars, 0)
+        if (theItem.ratings.length > 0) {
+            totalStars = theItem.ratings.reduce((a, c) => a + c.stars, 0)
         }
 
         res.json({
-            item: myItem,
+            item: myItem || theItem,
             totalStars: totalStars,
-            avg: totalStars / myItem.ratings.length,
+            avg: totalStars / theItem.ratings.length,
             userRating: userRating,
          })
 

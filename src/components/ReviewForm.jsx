@@ -26,8 +26,7 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 itemId
             })
             console.log("new post")
-            console.log(data)
-            setUserRating(data.rating)
+            setUserRating(data.newRating)
 
         } else {
             let { data } = await axios.put(`/rating/${userRating.ratingId}`, {
@@ -36,8 +35,6 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 imgUrl,
             })
             console.log("edit put")
-            console.log(data)
-
             setUserRating(data.rating)
         }
 
