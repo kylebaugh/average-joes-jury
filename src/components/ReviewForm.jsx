@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import axios from "axios"
 
-export const ReviewForm = ({ itemId, userRating }) => {
+export const ReviewForm = ({ itemId, userRating, setUserRating }) => {
 
-    const [stars, setStars] = useState("")
+    const editMode = useSelector(state => state.editMode)
+    const dispatch = useDispatch()
+
+    const [stars, setStars] = useState("1")
     const [review, setReview] = useState("")
     const [imgUrl, setImgUrl] = useState("")
-    const [editMode, setEditMode] = useState(false)
+
     const userId = useSelector(state => state.userId)
 
     const submitHandler = async (e) => {
@@ -21,6 +24,8 @@ export const ReviewForm = ({ itemId, userRating }) => {
                 userId,
             })
             console.log("new post")
+            setUserRating(data)
+
         } else {
             let { data } = await axios.put(`/rating/${userRating.ratingId}`, {
                 stars,
@@ -28,13 +33,17 @@ export const ReviewForm = ({ itemId, userRating }) => {
                 imgUrl,
             })
             console.log("edit put")
+            setUserRating(data)
         }
 
         toggleEdit()
     }
 
     const toggleEdit = () => {
-        setEditMode(!editMode)
+        dispatch({
+            type: 'SET_EDIT_MODE',
+            payload: !editMode,
+        })
     }
 
     useEffect(() => {
@@ -43,38 +52,13 @@ export const ReviewForm = ({ itemId, userRating }) => {
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-    }, [userRating])
+    }, [userRating, editMode])
 
     return (
         <div className="pageItem">
-            {userId && !editMode && 
-                <section>
-                    {userRating && 
-                    <>
-                        <button
-                            onClick={toggleEdit}
-                        >Edit Rating
-                        </button>
-                        <p>User: {userId}</p>
-                        <p>Stars: {stars}</p>
-                        <p>Review: {review}</p>
-                        <img src={imgUrl}></img>
-                    </>
-                    }
-                    {!userRating && 
-                        <button
-                            onClick={toggleEdit}
-                        >Add A Review
-                        </button>
-                    }
-                </section>
-            }
             {userId && editMode &&
                 <section>
-                    <button
-                        onClick={toggleEdit}
-                    >Cancel
-                    </button>
+                    
                     <form onSubmit={submitHandler}>
                         <section>Stars
                             <select 
@@ -91,8 +75,8 @@ export const ReviewForm = ({ itemId, userRating }) => {
                             </select>
                         </section>
                         <section>Review
-                            <input 
-                                type="text-field" 
+                            <textarea 
+                                rows={5}
                                 onChange={(e) => setReview(e.target.value)}
                                 defaultValue={review}
                                 />
@@ -108,40 +92,41 @@ export const ReviewForm = ({ itemId, userRating }) => {
                             <input type="submit" />
                         </section>
                     </form>
+                    <button
+                        onClick={toggleEdit}
+                    >Cancel
+                    </button>
                 </section>
             }
-            {!userId && 
-                <form onSubmit={submitHandler}>
-                    <section>Stars
-                        <select 
-                            name="stars" 
-                            id="stars"
-                            onChange={(e) => setStars(e.target.value)}
-                            >
-                            <option value="1">⭐️</option>
-                            <option value="2">⭐️⭐️</option>
-                            <option value="3">⭐️⭐️⭐️</option>
-                            <option value="4">⭐️⭐️⭐️⭐️</option>
-                            <option value="5">⭐️⭐️⭐️⭐️⭐️</option>
-                        </select>
-                    </section>
-                    <section>Review
-                        <input 
-                            type="text-field" 
-                            onChange={(e) => setReview(e.target.value)}
-                            />
-                    </section>
-                    <section>Image URL
-                        <input 
-                            type="text" 
-                            onChange={(e) => setImgUrl(e.target.value)}
-                            />
+            {userId && !editMode && 
+                <section>
+                    {userRating && 
+                    <>
+                    <section>
+                        <h4>Your Rating:</h4>
+                        <p>User: {userId}</p>
+                        <p>Stars: {stars}</p>
+                        <p>Review: {review}</p>
+                        <img src={imgUrl}></img>
                     </section>
                     <section>
-                        <input type="submit" />
+
+                        <button
+                            onClick={toggleEdit}
+                        >Edit Rating
+                        </button>
                     </section>
-                </form>
+                    </>
+                    }
+                    {!userRating && 
+                        <button
+                            onClick={toggleEdit}
+                        >Add A Review
+                        </button>
+                    }
+                </section>
             }
+
         </div>
     )
 }

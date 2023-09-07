@@ -4,6 +4,7 @@ import { Op } from "sequelize";
 const ratingFunctions = {
     addRating: async (req, res) => {
         const {stars, review, imgUrl} = req.body
+        console.log(stars)
 
         if(!req.session.user){
             res.json('You must be logged in')
@@ -15,7 +16,6 @@ const ratingFunctions = {
         req.session.item = myItem
 
         const user = await User.findByPk(req.session.user.userId)
-
 
         const newRating = await user.createRating({
             stars,

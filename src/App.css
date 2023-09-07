@@ -61,6 +61,11 @@ a:hover {
   border: solid lightskyblue 1px;
 }
 
+.feedReview {
+  margin: 1vw;
+  border: dotted darkmagenta 2px;
+}
+
 img {
   height: 50px;
 }

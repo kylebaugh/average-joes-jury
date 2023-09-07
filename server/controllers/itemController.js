@@ -64,8 +64,11 @@ const itemFunctions = {
         }
 
         req.session.item = myItem
+        let totalStars = 0
 
-        let totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
+        if (myItem.ratings.length > 0) {
+            totalStars = myItem.ratings.reduce((a, c) => a + c.stars, 0)
+        }
 
         res.json({
             item: myItem,

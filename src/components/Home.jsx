@@ -27,7 +27,7 @@ const Home = () => {
             <section id="mainComponents">
                 {show === "search" && <Feed />}
                 {show === "items" && <Feed userId={userId} />}
-                {show === "reviews" && <MyReviews userId={userId}/>}
+                {show === "reviews" && <MyReviews />}
                 {show === "addItem" && <h3>Add item form will go here</h3>}
             </section>
 

@@ -2,6 +2,7 @@ const initialState = {
     userId: null,
     itemId: null,
     show: "search",
+    editMode: false,
 }
 
 const reducer = (state=initialState, action) => {
@@ -30,6 +31,12 @@ const reducer = (state=initialState, action) => {
             return {
                 ...state,
                 show: action.payload,
+            }
+
+        case 'SET_EDIT_MODE':
+            return {
+                ...state,
+                editMode: action.payload,
             }
 
         default: 

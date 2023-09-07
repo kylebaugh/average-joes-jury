@@ -50,20 +50,6 @@ const PageItem = () => {
 
             {item && 
             <div>
-                {userId && 
-                    <section>
-                    {userRating &&
-                        <ReviewForm 
-                            itemId={itemId} 
-                            userRating={userRating}
-                        /> 
-                    }
-                    {!userRating && 
-                        <ReviewForm 
-                        /> 
-                    }
-                    </section>
-                }
             <section>
                 <img src={item.item.user.imgUrl} alt="item creator img" />
                 <p>{item.item.name}</p>
@@ -73,12 +59,28 @@ const PageItem = () => {
                 <p>{item.item.description}</p>
             </section>
             <section>
-                Average Rating: {+(item.avg).toFixed(2)}
+                Average Rating: {item.avg > 0 ? +(item.avg).toFixed(2) : 'N/A'}
                 <br />
                 Total Ratings: {+item.totalStars}
                 <br></br>
                 <br></br>
             </section>
+                {userId && 
+                    <section>
+                    {userRating &&
+                        <ReviewForm 
+                            itemId={itemId} 
+                            userRating={userRating}
+                            setUserRating={setUserRating}
+                        /> 
+                    }
+                    {!userRating && 
+                        <ReviewForm 
+                            setUserRating={setUserRating}
+                        /> 
+                    }
+                    </section>
+                }
             <section className="topComments"> Top Comments:
                 {reviews}     
             </section>
