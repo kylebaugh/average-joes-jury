@@ -103,3 +103,16 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+.fullReview{
+  border: 1px green solid;
+  margin: 5px;
+}
+
+img{
+  height: 50px;
+}
+
+#userItem{
+  border: 1px solid purple;
+}

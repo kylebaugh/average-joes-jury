@@ -22,9 +22,13 @@ const ratingFunctions = {
             review,
             imgUrl,
             itemId: myItem.itemId,
+            userId: user.userId
         })
 
-        res.json(newRating)
+        res.json({
+            message: 'rating added',
+            newRating
+        })
     },
 
     deleteRating: async (req, res) => {

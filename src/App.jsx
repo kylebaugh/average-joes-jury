@@ -6,7 +6,9 @@ import Feed from './components/Feed'
 import PageItem from './components/PageItem'
 import './App.css'
 
+
 function App() {
+
 
 
   return (
@@ -15,7 +17,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/feed' element={<Feed />} />
-        <Route path='/item/:itemId' element={<PageItem />} />
+        <Route path='/item/:itemId' element={<PageItem />}
+
+        />
       </Routes>
     </BrowserRouter>
   )

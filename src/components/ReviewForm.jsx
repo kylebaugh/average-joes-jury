@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import axios from "axios"
 
-export const ReviewForm = ({ itemId, userRating, setUserRating }) => {
+const ReviewForm = ({ itemId, userRating, setUserRating }) => {
 
     const editMode = useSelector(state => state.editMode)
     const dispatch = useDispatch()
@@ -22,6 +23,7 @@ export const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 review,
                 imgUrl,
                 userId,
+                itemId
             })
             console.log("new post")
             setUserRating(data)
@@ -47,12 +49,12 @@ export const ReviewForm = ({ itemId, userRating, setUserRating }) => {
     }
 
     useEffect(() => {
-        if (userRating) {
+        if(userRating){
             setStars(userRating.stars)
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-    }, [userRating, editMode])
+      }, [userRating, editMode])
 
     return (
         <div className="pageItem">
@@ -127,6 +129,9 @@ export const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 </section>
             }
 
+
         </div>
     )
 }
+
+export default ReviewForm

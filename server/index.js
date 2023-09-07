@@ -36,7 +36,7 @@ const {
     addItem,
     deleteItem,
     editItem,
-    getItemRatingsSansUser,
+    getItemRatingsSansUser
 } = itemFunctions
 
 const {

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import axios from "axios"
-import { ReviewForm } from "./ReviewForm"
 import { useSelector } from "react-redux"
+import axios from "axios"
+import ReviewForm from "./ReviewForm.jsx"
 
 const PageItem = () => {
 
     const [item, setItem] = useState(null)
     const [ratings, setRatings] = useState([])
-    const [userRating, setUserRating] = useState([])
-
+    const [userRating, setUserRating] = useState(null)
     const { itemId } = useParams()
     const userId = useSelector(state => state.userId)
     
@@ -32,7 +31,7 @@ const PageItem = () => {
 
     let reviews = ratings.map((review) => {
         return (
-            <section 
+            <section
                 key={review.ratingId}
                 className="fullReview"
             >
@@ -48,9 +47,9 @@ const PageItem = () => {
     return (
         <div className='pageItem'>Full Page Item
 
-            {item && 
+            {item &&
             <div>
-            <section>
+            <section id="userItem">
                 <img src={item.item.user.imgUrl} alt="item creator img" />
                 <p>{item.item.name}</p>
             </section>
@@ -84,6 +83,7 @@ const PageItem = () => {
             <section className="topComments"> Top Comments:
                 {reviews}     
             </section>
+
             </div>
             }
 

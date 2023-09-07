@@ -31,11 +31,11 @@ const Login = () => {
         } else {
             if (password === confirmPassword) {
                 let body = {
-                    username, 
-                    password, 
+                    username,
+                    password,
                     confirmPassword,
-                    firstName, 
-                    lastName, 
+                    firstName,
+                    lastName,
                     imgUrl,
                 }
                 await axios.post('/adduser', body)
@@ -69,7 +69,7 @@ const Login = () => {
 
     return (
         <div>
-            <form 
+            <form
                 id="loginForm"
                 onSubmit={handleSubmit}>
 
@@ -93,7 +93,7 @@ const Login = () => {
             {!login &&
             <div id="registerForm">
 
-                {badSubmit && 
+                {badSubmit &&
                 <h4 id="badSubmit">Passwords did not match!</h4>
                 }
 
@@ -105,12 +105,12 @@ const Login = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required={true}
                 />
-                {password !== confirmPassword && 
+                {password !== confirmPassword &&
                 <p id="badPw">Passwords do not match!</p>
                 }
 
                 First Name:
-                <input 
+                <input
                     placeholder="First Name"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
@@ -118,7 +118,7 @@ const Login = () => {
                 />
 
                 Last Name:
-                <input 
+                <input
                     placeholder="Last Name"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
@@ -126,18 +126,18 @@ const Login = () => {
                 />
 
                 Image URL:
-                <input 
+                <input
                     placeholder="Image URL"
                     value={imgUrl}
                     onChange={(e) => setImgUrl(e.target.value)}
                 />
-           
+
                 <button
                     type="submit"
                 >Register
                 </button>
 
-                <a 
+                <a
                     onClick={toggleLogin}
                 >Need to Login? Click here
                 </a>
@@ -148,7 +148,7 @@ const Login = () => {
                 <button
                     type="submit"
                 >Login</button>
-                <a 
+                <a
                     onClick={toggleLogin}
                 >Need to Register? Click here
                 </a>
@@ -156,7 +156,7 @@ const Login = () => {
             }
 
             </form>
-            
+
 
 
         </div>
