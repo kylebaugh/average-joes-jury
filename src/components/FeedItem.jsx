@@ -2,7 +2,9 @@ import { Link } from "react-router-dom"
 
 
 const FeedItem = ({ item, totalStars, avg }) => {
-    avg = +avg
+    if(avg){
+        avg = +avg
+    }
 
     return (
         <div className='feedItem'>

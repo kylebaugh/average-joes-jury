@@ -81,7 +81,7 @@ const PageItem = () => {
                             <p>{item.item.description}</p>
                         </section>
                         <section>
-                            Average Rating: {+(item.avg).toFixed(2)}
+                            Average Rating: {item.avg > 0 ? +(item.avg).toFixed(2) : 'N/A'}
                             <br />
                             Total Ratings: {+item.totalStars}
                             <br></br>

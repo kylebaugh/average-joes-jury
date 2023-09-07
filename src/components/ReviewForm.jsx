@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import axios from 'axios'
 
 const ReviewForm = ({itemId, userRating}) => {
-    const [stars, setStars] = useState(0)
+    const [stars, setStars] = useState(1)
     const [review, setReview] = useState('')
     const [imgUrl, setImgUrl] = useState('')
     const [editMode, setEditMode] = useState(false)
@@ -101,7 +101,7 @@ const ReviewForm = ({itemId, userRating}) => {
                     </form>
                 </section>}
 
-            {!userId && <form>
+            {/* {!userId && <form>
                 <section>
                     <p>Stars</p>
                     <select name="starForm" id="starForm" onChange={(e) => setStars(e.target.value)}>
@@ -121,7 +121,7 @@ const ReviewForm = ({itemId, userRating}) => {
                     <input placeholder='Enter Image URL' onChange={(e) => setImgUrl(e.target.value)} value={imgUrl}/>
                 </section>
                 <button onClick={submitHandler}>Submit</button>
-            </form>}
+            </form>} */}
 
 
         </div>
