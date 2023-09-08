@@ -40,8 +40,9 @@ const PageItem = () => {
                 <p>Stars: {review.stars}</p>
                 <p>Review: {review.review}</p>
                 <img src={review.imgUrl} />
-
-                <Thumb review={review} />
+                <div>
+                    <Thumb review={review} />
+                </div>
 
             </section>
         )

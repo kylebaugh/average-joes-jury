@@ -110,8 +110,9 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                         <p>Stars: {stars}</p>
                         <p>Review: {review}</p>
                         <img src={imgUrl}></img>
-
-                        <Thumb userReview={userRating} />
+                        <div>
+                            <Thumb userReview={userRating} />
+                        </div>
                     </section>
                     <section>
 

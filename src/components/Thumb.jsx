@@ -13,7 +13,6 @@ const Thumb = ({ review, userReview }) => {
 
     useEffect(() => {
         if (review) {
-            console.log(review.votes)
             for (let vote of review.votes) {
                 if (vote.userId === userId) {
                     if (vote.upVote) {
@@ -26,7 +25,6 @@ const Thumb = ({ review, userReview }) => {
         }
     
         if (userReview) {
-            console.log(userReview.votes)
             for (let vote of userReview.votes) {
                 if (vote.userId === userId) {
                     if (vote.upVote) {
@@ -37,7 +35,7 @@ const Thumb = ({ review, userReview }) => {
                 }
             }
         }
-        
+
     }, [userVote])
     
 
@@ -47,20 +45,32 @@ const Thumb = ({ review, userReview }) => {
             <>
             {userVote === "up" &&
                 <>
-                <img src={thumbUpFill} /> ({review.upVotes})
-                <img src={thumbDown} /> ({review.downVotes})
+                <button>
+                    <img src={thumbUpFill} /> ({review.upVotes})
+                </button>
+                <button>
+                    <img src={thumbDown} /> ({review.downVotes})
+                </button>
                 </>
             }
             {userVote === "down" &&
                 <>
-                <img src={thumbUp} /> ({review.upVotes})
-                <img src={thumbDownFill} /> ({review.downVotes})
+                <button>
+                    <img src={thumbUp} /> ({review.upVotes})
+                </button>
+                <button>
+                    <img src={thumbDownFill} /> ({review.downVotes})
+                </button>
                 </>
             }
             {!userVote &&
                 <>
-                <img src={thumbUp} /> ({review.upVotes})
-                <img src={thumbDown} /> ({review.downVotes})
+                <button>
+                    <img src={thumbUp} /> ({review.upVotes})
+                </button>
+                <button>
+                    <img src={thumbDown} /> ({review.downVotes})
+                </button>
                 </>
             }
             </>
@@ -69,20 +79,32 @@ const Thumb = ({ review, userReview }) => {
             <>
             {userVote === "up" &&
                 <>
-                <img src={thumbUpFill} /> ({userReview.upVotes})
-                <img src={thumbDown} /> ({userReview.downVotes})
+                <button>
+                    <img src={thumbUpFill} /> ({userReview.upVotes})
+                </button>
+                <button>
+                    <img src={thumbDown} /> ({userReview.downVotes})
+                </button>
                 </>
             }
             {userVote === "down" &&
                 <>
-                <img src={thumbUp} /> ({userReview.upVotes})
-                <img src={thumbDownFill} /> ({userReview.downVotes})
+                <button>
+                    <img src={thumbUp} /> ({userReview.upVotes})
+                </button>
+                <button>
+                    <img src={thumbDownFill} /> ({userReview.downVotes})
+                </button>
                 </>
             }
             {!userVote &&
                 <>
-                <img src={thumbUp} /> ({userReview.upVotes})
-                <img src={thumbDown} /> ({userReview.downVotes})
+                <button>
+                    <img src={thumbUp} /> ({userReview.upVotes})
+                </button>
+                <button>
+                    <img src={thumbDown} /> ({userReview.downVotes})
+                </button>
                 </>
             }
             </>
