@@ -99,11 +99,42 @@ Rating.init(
         imgUrl: {
             type: DataTypes.TEXT,
             allowNull: true,
+        },
+        upVotes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
+        },
+        downVotes: {
+            type: DataTypes.INTEGER,
+            defaultValue: 0,
         }
     },
     {
         modelName: 'rating',
         sequelize: db,
+    }
+)
+
+export class Vote extends Model {
+    [util.inspect.custom]() {
+        return this.toJSON()
+    }
+}
+Vote.init(
+    {
+        voteId: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        upVote: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+    },
+    {
+        modelName: "vote",
+        sequelize: db
     }
 )
 
@@ -115,3 +146,9 @@ Rating.belongsTo(User, { foreignKey: 'userId' })
 
 Item.hasMany(Rating, { foreignKey: 'itemId' })
 Rating.belongsTo(Item, { foreignKey: 'itemId' })
+
+User.hasMany(Vote, { foreignKey: "userId" })
+Vote.belongsTo(User, { foreignKey: "userId" })
+
+Rating.hasMany(Vote, { foreignKey: "ratingId" })
+Vote.belongsTo(Rating, { foreignKey: "ratingId" })

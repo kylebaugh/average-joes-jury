@@ -1,4 +1,4 @@
-import { User, Item, Rating } from "../db/model.js";
+import { User, Item, Rating, Vote } from "../db/model.js";
 import { Op, Sequelize } from "sequelize";
 
 const itemFunctions = {
@@ -31,13 +31,29 @@ const itemFunctions = {
                         where: {
                             [Op.not]: { userId: req.query.userId }
                         },
-                        required: false
+                        required: false,
+                        include: {
+                            model: Vote
+                        }
                     },
                     {
                         model: User
                     },
                 ]
             })
+
+            let asdf = await myItem.ratings.map((rating) => {
+                return rating.votes.map((vote) => {
+                    const newVote = {...vote, currentUser: false}
+                    if (vote.userId === req.session.userId) {
+                        newVote.currentUser = true
+                    } 
+                    return newVote
+                })
+            })
+            myItem.ratings = asdf
+
+            console.log(myItem.ratings)
 
             userRating = await Rating.findOne({
                 where: {
@@ -68,6 +84,8 @@ const itemFunctions = {
         if (theItem.ratings.length > 0) {
             totalStars = theItem.ratings.reduce((a, c) => a + c.stars, 0)
         }
+
+        
 
         res.json({
             item: myItem || theItem,
