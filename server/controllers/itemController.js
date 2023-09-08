@@ -78,37 +78,6 @@ const itemFunctions = {
 
     },
 
-    getItemRatingsSansUser: async (req, res) => {
-
-        const itemRatings = await Rating.findAll({
-            where: {
-                [Op.and]: [
-                    {
-                        [Op.not]: {
-                            userId: req.params.userId
-                        }
-                    },
-                    {itemId: req.params.itemId}
-                ]
-            }
-        })
-
-        const userRating = await Rating.findOne({
-            where: {
-                [Op.and]: [
-                    {
-                        userId: req.params.userId
-                    },
-                    {
-                        itemId: req.params.itemId
-                    }
-                ]
-            }
-        })
-
-        res.json({itemRatings, userRating})
-    },
-
     getUserItems: async (req, res) => {
 
         const userItems = await Item.findAll({
@@ -126,35 +95,6 @@ const itemFunctions = {
         })
 
         res.json(userItems)
-    },
-
-    getItemRatingsSansUser: async (req, res) => {
-
-        const itemRatings = await Rating.findAll({
-            where: {
-                [Op.and]: [
-                    {
-                        [Op.not]: {
-                        userId: req.params.userId
-                        }
-                    },
-                    {
-                        itemId: req.params.itemId
-                    },
-                ]
-            }
-        })
-
-        const userRating = await Rating.findOne({
-            where: {
-                [Op.and]: [
-                    { userId: req.params.userId },
-                    { itemId: req.params.itemId}
-                ]
-            }
-        })
-
-        res.json({itemRatings, userRating})
     },
 
     searchItem: async (req, res) => {
