@@ -42,18 +42,19 @@ const itemFunctions = {
                 ]
             })
 
-            let asdf = await myItem.ratings.map((rating) => {
+            let userCheck = await myItem.ratings.map((rating) => {
                 return rating.votes.map((vote) => {
-                    const newVote = {...vote, currentUser: false}
+                    const newVote = {...vote}
                     if (vote.userId === req.session.userId) {
-                        newVote.currentUser = true
-                    } 
+                        newVote.dataValues.currentUser = true
+                    } else {
+                        newVote.dataValues.currentUser = false
+                    }
                     return newVote
                 })
             })
-            myItem.ratings = asdf
 
-            console.log(myItem.ratings)
+            myItem.ratings = userCheck
 
             userRating = await Rating.findOne({
                 where: {
@@ -61,6 +62,9 @@ const itemFunctions = {
                         { userId: req.query.userId },
                         { itemId: req.params.itemId}
                     ]
+                },
+                include: {
+                    model: Vote
                 }
             })
 
