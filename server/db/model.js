@@ -147,8 +147,8 @@ Rating.belongsTo(User, { foreignKey: 'userId' })
 Item.hasMany(Rating, { foreignKey: 'itemId' })
 Rating.belongsTo(Item, { foreignKey: 'itemId' })
 
-User.hasMany(Vote, { foreignKey: "userId" })
-Vote.belongsTo(User, { foreignKey: "userId" })
+User.hasMany(Vote, { foreignKey: 'userId' })
+Vote.belongsTo(User, { foreignKey: 'userId' })
 
-Rating.hasMany(Vote, { foreignKey: "ratingId" })
-Vote.belongsTo(Rating, { foreignKey: "ratingId" })
+Rating.hasMany(Vote, { foreignKey: 'ratingId' })
+Vote.belongsTo(Rating, { foreignKey: 'ratingId' })

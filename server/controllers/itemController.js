@@ -3,7 +3,6 @@ import { Op, Sequelize } from "sequelize";
 
 const itemFunctions = {
 
-
     getTenItems: async (req, res) => {
 
         const ten = await Item.findAll({
