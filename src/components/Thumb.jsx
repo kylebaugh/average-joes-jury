@@ -14,10 +14,8 @@ const Thumb = ({ review, userReview, scotty }) => {
 
     const handleThumbClick = async (dir) => {
         if (dir === "up") {
-            console.log("UP CLICKED")
 
             if (userVote === "down") {
-                console.log("UP from DOWN")
                 await axios.post(`/vote`, {
                     userId,
                     ratingId: review.ratingId,
@@ -28,7 +26,6 @@ const Thumb = ({ review, userReview, scotty }) => {
                 setUserVote("up")
                 
             } else if (userVote === "up") {
-                console.log("UP from UP")
                 await axios.delete('/vote', { data: {
                     userId,
                     ratingId: review.ratingId,
@@ -39,7 +36,6 @@ const Thumb = ({ review, userReview, scotty }) => {
                 setUserVote(null)
                 
             } else if (userVote === null) {
-                console.log("UP from null")
                 await axios.post(`/vote`, {
                     userId,
                     ratingId: review.ratingId,
@@ -51,7 +47,6 @@ const Thumb = ({ review, userReview, scotty }) => {
             }
             
         } else if (dir === "down") {
-            console.log("DOWN CLICKED")
             
             if (userVote === "up") {
                 await axios.post(`/vote`, {

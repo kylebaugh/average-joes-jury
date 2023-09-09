@@ -53,15 +53,13 @@ const voteFunctions = {
         const rating = await Rating.findByPk(req.body.ratingId)
         
         if (req.body.upVote === true) {
-            rating.upVotes += 1
+            rating.upVotes -= 1
         } else {
-            rating.downVotes += 1
+            rating.downVotes -= 1
         }
         await rating.save()
         
-        // res.send(rating)
-
-        res.send("Vote deleted")
+        res.send(rating)
     }
 }
 
