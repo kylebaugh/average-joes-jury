@@ -44,6 +44,8 @@ const PageItem = () => {
                     <Thumb 
                         review={review} 
                         scotty={scotty}
+                        setRatings={setRatings}
+                        setUserRating={setUserRating}
                     />
                 </div>
 

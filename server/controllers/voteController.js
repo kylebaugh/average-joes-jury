@@ -4,6 +4,8 @@ import { Op, Sequelize } from "sequelize";
 const voteFunctions = {
 
     createVote: async (req, res) => {
+        
+        const rating = await Rating.findByPk(req.body.ratingId)
 
         try {
             await Vote.destroy({
@@ -24,12 +26,17 @@ const voteFunctions = {
             })
         }
   
-        const rating = await Rating.findByPk(req.body.ratingId)
         
         if (req.body.upVote === true) {
             rating.upVotes += 1
-        } else {
+            if (req.body.decrementOther === true) {
+                rating.downVotes -= 1
+            }
+        } else if (req.body.upVote === false) {
             rating.downVotes += 1
+            if (req.body.decrementOther === true) {
+                rating.upVotes -= 1
+            }
         }
         await rating.save()
         

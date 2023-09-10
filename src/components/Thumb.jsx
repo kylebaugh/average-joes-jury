@@ -6,7 +6,7 @@ import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-const Thumb = ({ review, userReview, scotty }) => {
+const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
 
     const userId = useSelector(state => state.userId)
 
@@ -19,7 +19,8 @@ const Thumb = ({ review, userReview, scotty }) => {
                 await axios.post(`/vote`, {
                     userId,
                     ratingId: review.ratingId,
-                    upVote: true
+                    upVote: true,
+                    decrementOther: true
                 })
 
                 await scotty()
@@ -29,7 +30,8 @@ const Thumb = ({ review, userReview, scotty }) => {
                 await axios.delete('/vote', { data: {
                     userId,
                     ratingId: review.ratingId,
-                    upVote: true
+                    upVote: true,
+                    decrementOther: false
                 }})
 
                 await scotty()
@@ -39,7 +41,8 @@ const Thumb = ({ review, userReview, scotty }) => {
                 await axios.post(`/vote`, {
                     userId,
                     ratingId: review.ratingId,
-                    upVote: true
+                    upVote: true,
+                    decrementOther: false
                 })
 
                 await scotty()
@@ -52,7 +55,8 @@ const Thumb = ({ review, userReview, scotty }) => {
                 await axios.post(`/vote`, {
                     userId,
                     ratingId: review.ratingId,
-                    upVote: false
+                    upVote: false,
+                    decrementOther: true
                 })
                 
                 await scotty()
@@ -62,7 +66,8 @@ const Thumb = ({ review, userReview, scotty }) => {
                 await axios.delete('/vote', { data: {
                     userId,
                     ratingId: review.ratingId,
-                    upvote: false
+                    upvote: false,
+                    decrementOther: false
                 }})
                 
                 await scotty()
@@ -72,7 +77,8 @@ const Thumb = ({ review, userReview, scotty }) => {
                 await axios.post(`/vote`, {
                     userId,
                     ratingId: review.ratingId,
-                    upVote: false
+                    upVote: false,
+                    decrementOther: false
                 })
                 
                 await scotty()
@@ -107,7 +113,7 @@ const Thumb = ({ review, userReview, scotty }) => {
             }
         }
 
-    }, [userVote])
+    }, [userVote, setUserVote])
     
 
     return (
