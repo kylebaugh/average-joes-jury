@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import axios from "axios"
 import Thumb from "./Thumb"
 
-const ReviewForm = ({ itemId, userRating, setUserRating }) => {
+const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
 
     const editMode = useSelector(state => state.editMode)
     const dispatch = useDispatch()
@@ -111,7 +111,10 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                         <p>Review: {review}</p>
                         <img src={imgUrl}></img>
                         <div>
-                            <Thumb userReview={userRating} />
+                            <Thumb 
+                                userReview={userRating} 
+                                scotty={scotty}
+                            />
                         </div>
                     </section>
                     <section>

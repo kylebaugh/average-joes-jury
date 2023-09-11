@@ -6,19 +6,31 @@ import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
+const Thumb = ({ review, userReview, scotty }) => {
 
     const userId = useSelector(state => state.userId)
 
     const [userVote, setUserVote] = useState(null)
 
     const handleThumbClick = async (dir) => {
+
+        let ratingId;
+        if (review) {
+            ratingId = review.ratingId
+        } else {
+            ratingId = userReview.ratingId
+        }
+
+        if (!userId) {
+            return
+        }
+
         if (dir === "up") {
 
             if (userVote === "down") {
                 await axios.post(`/vote`, {
                     userId,
-                    ratingId: review.ratingId,
+                    ratingId,
                     upVote: true,
                     decrementOther: true
                 })
@@ -29,7 +41,7 @@ const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
             } else if (userVote === "up") {
                 await axios.delete('/vote', { data: {
                     userId,
-                    ratingId: review.ratingId,
+                    ratingId,
                     upVote: true,
                     decrementOther: false
                 }})
@@ -40,7 +52,7 @@ const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
             } else if (userVote === null) {
                 await axios.post(`/vote`, {
                     userId,
-                    ratingId: review.ratingId,
+                    ratingId,
                     upVote: true,
                     decrementOther: false
                 })
@@ -54,7 +66,7 @@ const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
             if (userVote === "up") {
                 await axios.post(`/vote`, {
                     userId,
-                    ratingId: review.ratingId,
+                    ratingId,
                     upVote: false,
                     decrementOther: true
                 })
@@ -65,7 +77,7 @@ const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
             } else if (userVote === "down") {
                 await axios.delete('/vote', { data: {
                     userId,
-                    ratingId: review.ratingId,
+                    ratingId,
                     upvote: false,
                     decrementOther: false
                 }})
@@ -76,7 +88,7 @@ const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
             } else if (userVote === null) {
                 await axios.post(`/vote`, {
                     userId,
-                    ratingId: review.ratingId,
+                    ratingId,
                     upVote: false,
                     decrementOther: false
                 })
@@ -113,7 +125,7 @@ const Thumb = ({ review, userReview, scotty, setRatings, setUserRating }) => {
             }
         }
 
-    }, [userVote, setUserVote])
+    }, [userVote])
     
 
     return (

@@ -6,26 +6,25 @@ const voteFunctions = {
     createVote: async (req, res) => {
         
         const rating = await Rating.findByPk(req.body.ratingId)
+        const vote = await Vote.findOne({
+            where: {
+                [Op.and]: [
+                    { userId: req.body.userId },
+                    { ratingId: req.body.ratingId }
+                ]
+            }
+        })
 
-        try {
-            await Vote.destroy({
-                where: {
-                    [Op.and]: [
-                        { userId: req.body.userId },
-                        { ratingId: req.body.ratingId }
-                    ]
-                }
-            })
-        } catch (err) {
-            console.warn(err)
-        } finally {
+        if (vote) {
+            vote.upVote = req.body.upVote
+            await vote.save()
+        } else {
             await Vote.create({
                 userId: req.body.userId,
                 ratingId: req.body.ratingId,
                 upVote: req.body.upVote
             })
         }
-  
         
         if (req.body.upVote === true) {
             rating.upVotes += 1

@@ -44,8 +44,6 @@ const PageItem = () => {
                     <Thumb 
                         review={review} 
                         scotty={scotty}
-                        setRatings={setRatings}
-                        setUserRating={setUserRating}
                     />
                 </div>
 
@@ -81,11 +79,13 @@ const PageItem = () => {
                             itemId={itemId}
                             userRating={userRating}
                             setUserRating={setUserRating}
+                            scotty={scotty}
                         />
                     }
                     {!userRating &&
                         <ReviewForm
                             setUserRating={setUserRating}
+                            scotty={scotty}
                         />
                     }
                     </section>

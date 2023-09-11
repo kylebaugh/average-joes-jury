@@ -6,7 +6,7 @@ const authFunctions = {
 
         const {username, password} = req.body
 
-        console.log(req.body)
+        // console.log(req.body)
 
         const user = await User.findOne({
             where: {
@@ -36,7 +36,7 @@ const authFunctions = {
 
         req.session.user = user
 
-        console.log(req.session.user)
+        // console.log(req.session.user)
 
         res.json({  
             message: 'Login successful', 
