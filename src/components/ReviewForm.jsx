@@ -12,6 +12,9 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
     const [review, setReview] = useState("")
     const [imgUrl, setImgUrl] = useState("")
 
+    const [deleteRequest, setDeleteRequest] = useState(false)
+
+
     const userId = useSelector(state => state.userId)
 
     const submitHandler = async (e) => {
@@ -48,13 +51,25 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
         })
     }
 
+    const deleteHandler = async () => {
+        console.log('hit')
+        const { data } = await axios.delete(`/rating/${userRating.ratingId}`)
+        console.log(data)
+        setDeleteRequest(false)
+        setUserRating(null)
+    }
+
+
     useEffect(() => {
-        if(userRating){
+        if (userRating) {
             setStars(userRating.stars)
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-      }, [userRating, editMode, setUserRating])
+        // for(let prop in userRating){
+        //     console.log(prop)
+        // }
+    }, [userRating, editMode, setUserRating])
 
     return (
         <div className="pageItem">
@@ -81,14 +96,14 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
                                 rows={5}
                                 onChange={(e) => setReview(e.target.value)}
                                 defaultValue={review}
-                                />
+                            />
                         </section>
                         <section>Image URL
                             <input
                                 type="text"
                                 onChange={(e) => setImgUrl(e.target.value)}
                                 defaultValue={imgUrl}
-                                />
+                            />
                         </section>
                         <section>
                             <input type="submit" />
@@ -98,40 +113,60 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
                         onClick={toggleEdit}
                     >Cancel
                     </button>
-                </section>
+
+                    {userRating && <section>
+                            {!deleteRequest && <button onClick={() => setDeleteRequest(true)}>Delete Review?</button>}
+                            {deleteRequest && <section>
+                                Are you sure?
+                                <button onClick={() => setDeleteRequest(false)}>Nevermind</button>
+                                <button onClick={deleteHandler}>Yes, I'm sure</button>
+                            </section>
+                            }
+                    </section>}
+            </section>
             }
+
+
             {userId && !editMode &&
                 <section>
                     {userRating &&
-                    <>
-                    <section>
-                        <h4>Your Rating:</h4>
-                        <p>User: {userId}</p>
-                        <p>Stars: {stars}</p>
-                        <p>Review: {review}</p>
-                        <img src={imgUrl}></img>
-                        <div>
-                            <Thumb 
-                                userReview={userRating} 
-                                scotty={scotty}
-                            />
-                        </div>
-                    </section>
-                    <section>
+                        <>
+                            <section>
+                                <h4>Your Rating:</h4>
+                                <p>User: {userId}</p>
+                                <p>Stars: {stars}</p>
+                                <p>Review: {review}</p>
+                                <img src={imgUrl}></img>
+                                <div>
 
-                        <button
-                            onClick={toggleEdit}
-                        >Edit Rating
-                        </button>
-                    </section>
-                    </>
+                                </div>
+                            </section>
+                            <section>
+
+                                <button
+                                    onClick={toggleEdit}
+                                >Edit Rating
+                                </button>
+                            </section>
+                        </>
                     }
                     {!userRating &&
                         <button
                             onClick={toggleEdit}
                         >Add A Review
                         </button>
+
+
                     }
+                    {userRating && <section>
+                        {!deleteRequest && <button onClick={() => setDeleteRequest(true)}>Delete Review?</button>}
+                        {deleteRequest && <section>
+                            Are you sure?
+                            <button onClick={() => setDeleteRequest(false)}>Nevermind</button>
+                            <button onClick={deleteHandler}>Yes, I'm sure</button>
+                        </section>
+                        }
+                    </section>}
                 </section>
             }
 
