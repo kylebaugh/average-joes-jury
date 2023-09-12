@@ -6,7 +6,7 @@ import userFunctions from './controllers/userController.js'
 import authFunctions from './controllers/authController.js'
 import itemFunctions from './controllers/itemController.js'
 import ratingFunctions from './controllers/ratingController.js'
-
+import voteFunctions from './controllers/voteController.js'
 
 const app = express()
 
@@ -46,6 +46,11 @@ const {
 } = ratingFunctions
 
 const {
+    createVote,
+    deleteVote
+} = voteFunctions
+
+const {
     login,
     logout,
     sessionCheck,
@@ -73,6 +78,10 @@ app.post('/rating', addRating)
 app.put('/rating/:ratingId', updateRating)
 app.delete('/rating/:ratingId', deleteRating)
 app.get('/allRatings/:userId', getAllUserRatings)
+
+// Votes
+app.post('/vote', createVote)
+app.delete('/vote', deleteVote)
 
 // Authentication
 app.post('/login', login)

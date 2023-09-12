@@ -1,8 +1,7 @@
-import { User, Item, Rating } from "../db/model.js";
+import { User, Item, Rating, Vote } from "../db/model.js";
 import { Op, Sequelize } from "sequelize";
 
 const itemFunctions = {
-
 
     getTenItems: async (req, res) => {
 
@@ -31,20 +30,56 @@ const itemFunctions = {
                         where: {
                             [Op.not]: { userId: req.query.userId }
                         },
-                        required: false
+                        attributes: [
+                            'ratingId',
+                            'stars',
+                            'review',
+                            'imgUrl',
+                            'upVotes',
+                            'downVotes',
+                            [Sequelize.cast(Sequelize.literal('SUM(up_votes + down_votes)'), 'int'), 'totalVotes']
+                        ],
+                        required: false,
+                        include: {
+                            model: Vote
+                        }
                     },
                     {
                         model: User
                     },
-                ]
+                ],
+                group: ['item.item_id', 'ratings.rating_id', 'ratings.votes.vote_id', 'user.user_id']
             })
+
+            if (myItem.ratings.length > 0) {
+                myItem.ratings.sort((a, b) => {
+                    return b.dataValues.totalVotes - a.dataValues.totalVotes
+                })
+            }
+
+            let userCheck = await myItem.ratings.map((rating) => {
+                return rating.votes.map((vote) => {
+                    const newVote = {...vote}
+                    if (vote.userId === req.session.userId) {
+                        newVote.dataValues.currentUser = true
+                    } else {
+                        newVote.dataValues.currentUser = false
+                    }
+                    return newVote
+                })
+            })
+
+            myItem.ratings = userCheck
 
             userRating = await Rating.findOne({
                 where: {
                     [Op.and]: [
                         { userId: req.query.userId },
-                        { itemId: req.params.itemId}
+                        { itemId: req.params.itemId }
                     ]
+                },
+                include: {
+                    model: Vote
                 }
             })
 
@@ -54,11 +89,25 @@ const itemFunctions = {
             include: [
                 {
                     model: Rating,
+                    attributes: [
+                            'ratingId',
+                            'stars',
+                            'review',
+                            'imgUrl',
+                            'upVotes',
+                            'downVotes',
+                            [Sequelize.cast(Sequelize.literal('SUM(up_votes + down_votes)'), 'int'), 'totalVotes']
+                        ],
+                    include: {
+                        model: Vote
+                    }
                 },
                 {
                     model: User
                 },
-            ]
+                
+            ],
+            group: ['item.item_id', 'ratings.rating_id', 'ratings.votes.vote_id', 'user.user_id'],
         })
 
         req.session.item = myItem || theItem
@@ -67,6 +116,11 @@ const itemFunctions = {
 
         if (theItem.ratings.length > 0) {
             totalStars = theItem.ratings.reduce((a, c) => a + c.stars, 0)
+            theItem.ratings.sort((a, b) => {
+                for (let prop in a) {
+                    return b[prop].totalVotes - a[prop].totalVotes
+                }
+            } )
         }
 
         res.json({

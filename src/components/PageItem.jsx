@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import ReviewForm from "./ReviewForm.jsx"
+import Thumb from "./Thumb.jsx"
 
 const PageItem = () => {
 
@@ -35,15 +36,21 @@ const PageItem = () => {
                 key={review.ratingId}
                 className="fullReview"
             >
-                <p>User: {review.userId}</p>
+                <p className={review.currentUser}>User: {review.userId}</p>
                 <p>Stars: {review.stars}</p>
                 <p>Review: {review.review}</p>
                 <img src={review.imgUrl} />
+                <div>
+                    <Thumb 
+                        review={review} 
+                        scotty={scotty}
+                    />
+                </div>
 
             </section>
         )
     })
-    console.log(item)
+    // console.log(item)
 
     return (
         <div className='pageItem'>Full Page Item
@@ -72,11 +79,13 @@ const PageItem = () => {
                             itemId={itemId}
                             userRating={userRating}
                             setUserRating={setUserRating}
+                            scotty={scotty}
                         />
                     }
                     {!userRating &&
                         <ReviewForm
                             setUserRating={setUserRating}
+                            scotty={scotty}
                         />
                     }
                     </section>
