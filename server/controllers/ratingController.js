@@ -1,4 +1,4 @@
-import { User, Item, Rating } from "../db/model.js";
+import { User, Item, Rating, Vote } from "../db/model.js";
 import { Op } from "sequelize";
 
 const ratingFunctions = {
@@ -17,12 +17,24 @@ const ratingFunctions = {
 
         const user = await User.findByPk(req.session.user.userId)
 
-        const newRating = await user.createRating({
+        await user.createRating({
             stars,
             review,
             imgUrl,
             itemId: myItem.itemId,
             userId: user.userId
+        })
+
+        const newRating = await Rating.findOne({
+            where: {
+                [Op.and]: [
+                    { itemId: myItem.itemId },
+                    { userId: user.userId }
+                ]
+            },
+            include: {
+                model: Vote
+            }
         })
 
         res.json({

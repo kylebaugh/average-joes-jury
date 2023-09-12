@@ -113,7 +113,6 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
                         <div>
                             <Thumb 
                                 userReview={userRating} 
-                                scotty={scotty}
                             />
                         </div>
                     </section>

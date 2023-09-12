@@ -6,19 +6,23 @@ import { useSelector } from "react-redux"
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-const Thumb = ({ review, userReview, scotty }) => {
+const Thumb = ({ review, userReview }) => {
 
     const userId = useSelector(state => state.userId)
 
     const [userVote, setUserVote] = useState(null)
+    const [rating, setRating] = useState(review)
+    const [userRating, setUserRating] = useState(userReview)
+    const [upVotes, setUpVotes] = useState(review ? review.upVotes : userReview.upVotes)
+    const [downVotes, setDownVotes] = useState(review ? review.downVotes : userReview.downVotes)
 
     const handleThumbClick = async (dir) => {
 
         let ratingId;
-        if (review) {
-            ratingId = review.ratingId
+        if (rating) {
+            ratingId = rating.ratingId
         } else {
-            ratingId = userReview.ratingId
+            ratingId = userRating.ratingId
         }
 
         if (!userId) {
@@ -28,81 +32,89 @@ const Thumb = ({ review, userReview, scotty }) => {
         if (dir === "up") {
 
             if (userVote === "down") {
-                await axios.post(`/vote`, {
+                const { data } = await axios.post(`/vote`, {
                     userId,
                     ratingId,
                     upVote: true,
                     decrementOther: true
                 })
-
-                await scotty()
+                
                 setUserVote("up")
+                setDownVotes(data.downVotes)
+                setUpVotes(data.upVotes)
+                rating ? setRating(data) : setUserRating(data)
                 
             } else if (userVote === "up") {
-                await axios.delete('/vote', { data: {
+                const { data } = await axios.delete('/vote', { data: {
                     userId,
                     ratingId,
                     upVote: true,
                     decrementOther: false
                 }})
 
-                await scotty()
                 setUserVote(null)
+                setUpVotes(data.upVotes)
+                rating ? setRating(data) : setUserRating(data)
                 
             } else if (userVote === null) {
-                await axios.post(`/vote`, {
+                const { data } = await axios.post(`/vote`, {
                     userId,
                     ratingId,
                     upVote: true,
                     decrementOther: false
                 })
 
-                await scotty()
                 setUserVote("up")
+                setUpVotes(data.upVotes)
+                rating ? setRating(data) : setUserRating(data)
             }
             
         } else if (dir === "down") {
             
             if (userVote === "up") {
-                await axios.post(`/vote`, {
+                const { data } = await axios.post(`/vote`, {
                     userId,
                     ratingId,
                     upVote: false,
                     decrementOther: true
                 })
                 
-                await scotty()
                 setUserVote("down")
+                setDownVotes(data.downVotes)
+                setUpVotes(data.upVotes)
+                rating ? setRating(data) : setUserRating(data)
 
             } else if (userVote === "down") {
-                await axios.delete('/vote', { data: {
+                const { data } = await axios.delete('/vote', { data: {
                     userId,
                     ratingId,
                     upvote: false,
                     decrementOther: false
                 }})
                 
-                await scotty()
                 setUserVote(null)
+                setDownVotes(data.downVotes)
+                rating ? setRating(data) : setUserRating(data)
 
             } else if (userVote === null) {
-                await axios.post(`/vote`, {
+                const { data } = await axios.post(`/vote`, {
                     userId,
                     ratingId,
                     upVote: false,
                     decrementOther: false
                 })
                 
-                await scotty()
                 setUserVote("down")
+                setDownVotes(data.downVotes)
+                rating ? setRating(data) : setUserRating(data)
 
             }
         }
     }
 
     useEffect(() => {
-        if (review) {
-            for (let vote of review.votes) {
+        if (rating) {
+            for (let vote of rating.votes) {
                 if (vote.userId === userId) {
                     if (vote.upVote) {
                         setUserVote("up")
@@ -113,8 +125,8 @@ const Thumb = ({ review, userReview, scotty }) => {
             }
         }
     
-        if (userReview) {
-            for (let vote of userReview.votes) {
+        if (userRating) {
+            for (let vote of userRating.votes) {
                 if (vote.userId === userId) {
                     if (vote.upVote) {
                         setUserVote("up")
@@ -125,23 +137,23 @@ const Thumb = ({ review, userReview, scotty }) => {
             }
         }
 
-    }, [userVote]) 
+    }, [setUserVote]) 
 
     return (
         <span>
-        {review && 
+        {rating && 
             <>
             {userVote === "up" &&
                 <>
                 <button 
                     onClick={(e) => handleThumbClick("up")}
                 >
-                    <img src={thumbUpFill} /> ({review.upVotes})
+                    <img src={thumbUpFill} /> ({upVotes})
                 </button>
                 <button 
                     onClick={(e) => handleThumbClick("down")}
                 >
-                    <img src={thumbDown} /> ({review.downVotes})
+                    <img src={thumbDown} /> ({downVotes})
                 </button>
                 </>
             }
@@ -150,12 +162,12 @@ const Thumb = ({ review, userReview, scotty }) => {
                 <button 
                     onClick={(e) => handleThumbClick("up")}
                 >
-                    <img src={thumbUp} /> ({review.upVotes})
+                    <img src={thumbUp} /> ({upVotes})
                 </button>
                 <button 
                     onClick={(e) => handleThumbClick("down")}
                 >
-                    <img src={thumbDownFill} /> ({review.downVotes})
+                    <img src={thumbDownFill} /> ({downVotes})
                 </button>
                 </>
             }
@@ -164,30 +176,30 @@ const Thumb = ({ review, userReview, scotty }) => {
                 <button 
                     onClick={(e) => handleThumbClick("up")}
                 >
-                    <img src={thumbUp} /> ({review.upVotes})
+                    <img src={thumbUp} /> ({upVotes})
                 </button>
                 <button 
                     onClick={(e) => handleThumbClick("down")}
                 >
-                    <img src={thumbDown} /> ({review.downVotes})
+                    <img src={thumbDown} /> ({downVotes})
                 </button>
                 </>
             }
             </>
         }
-        {userReview && 
+        {userRating && 
             <>
             {userVote === "up" &&
                 <>
                 <button 
                     onClick={(e) => handleThumbClick("up")}
                 >
-                    <img src={thumbUpFill} /> ({userReview.upVotes})
+                    <img src={thumbUpFill} /> ({upVotes})
                 </button>
                 <button 
                     onClick={(e) => handleThumbClick("down")}
                 >
-                    <img src={thumbDown} /> ({userReview.downVotes})
+                    <img src={thumbDown} /> ({downVotes})
                 </button>
                 </>
             }
@@ -196,12 +208,12 @@ const Thumb = ({ review, userReview, scotty }) => {
                 <button 
                     onClick={(e) => handleThumbClick("up")}
                 >
-                    <img src={thumbUp} /> ({userReview.upVotes})
+                    <img src={thumbUp} /> ({upVotes})
                 </button>
                 <button 
                     onClick={(e) => handleThumbClick("down")}
                 >
-                    <img src={thumbDownFill} /> ({userReview.downVotes})
+                    <img src={thumbDownFill} /> ({downVotes})
                 </button>
                 </>
             }
@@ -210,12 +222,12 @@ const Thumb = ({ review, userReview, scotty }) => {
                 <button 
                     onClick={(e) => handleThumbClick("up")}
                 >
-                    <img src={thumbUp} /> ({userReview.upVotes})
+                    <img src={thumbUp} /> ({upVotes})
                 </button>
                 <button 
                     onClick={(e) => handleThumbClick("down")}
                 >
-                    <img src={thumbDown} /> ({userReview.downVotes})
+                    <img src={thumbDown} /> ({downVotes})
                 </button>
                 </>
             }

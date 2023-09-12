@@ -36,6 +36,7 @@ const PageItem = () => {
                 key={review.ratingId}
                 className="fullReview"
             >
+                <p>Rating: {review.ratingId}</p>
                 <p className={review.currentUser}>User: {review.userId}</p>
                 <p>Stars: {review.stars}</p>
                 <p>Review: {review.review}</p>
@@ -43,14 +44,12 @@ const PageItem = () => {
                 <div>
                     <Thumb 
                         review={review} 
-                        scotty={scotty}
                     />
                 </div>
 
             </section>
         )
     })
-    // console.log(item)
 
     return (
         <div className='pageItem'>Full Page Item
