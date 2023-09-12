@@ -78,13 +78,11 @@ const PageItem = () => {
                             itemId={itemId}
                             userRating={userRating}
                             setUserRating={setUserRating}
-                            scotty={scotty}
                         />
                     }
                     {!userRating &&
                         <ReviewForm
                             setUserRating={setUserRating}
-                            scotty={scotty}
                         />
                     }
                     </section>

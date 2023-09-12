@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import axios from "axios"
 import Thumb from "./Thumb"
 
-const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
+const ReviewForm = ({ itemId, userRating, setUserRating }) => {
 
     const editMode = useSelector(state => state.editMode)
     const dispatch = useDispatch()
