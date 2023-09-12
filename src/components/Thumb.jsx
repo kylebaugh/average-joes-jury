@@ -125,8 +125,7 @@ const Thumb = ({ review, userReview, scotty }) => {
             }
         }
 
-    }, [userVote])
-    
+    }, [userVote]) 
 
     return (
         <span>

@@ -51,6 +51,12 @@ const itemFunctions = {
                 group: ['item.item_id', 'ratings.rating_id', 'ratings.votes.vote_id', 'user.user_id']
             })
 
+            if (myItem.ratings.length > 0) {
+                myItem.ratings.sort((a, b) => {
+                    return b.dataValues.totalVotes - a.dataValues.totalVotes
+                })
+            }
+
             let userCheck = await myItem.ratings.map((rating) => {
                 return rating.votes.map((vote) => {
                     const newVote = {...vote}
@@ -65,29 +71,11 @@ const itemFunctions = {
 
             myItem.ratings = userCheck
 
-            console.log(myItem.ratings)
-
-            // if (myItem.ratings.length > 0) {
-            //     myItem.ratings.sort((a, b) => {
-            //         for (let prop in a) {
-            //             console.log(`a: -----> ${a}`)
-            //             console.log(`a[prop]: -----> ${a[prop].dataValues}`)
-            //         // return b[prop].totalVotes - a[prop].totalVotes
-            //     }
-            //     })
-            // }
-
-            if (myItem.ratings.length > 0) {
-                for (let rating of myItem.ratings) {
-                    console.log(rating)
-                }
-            }
-
             userRating = await Rating.findOne({
                 where: {
                     [Op.and]: [
                         { userId: req.query.userId },
-                        { itemId: req.params.itemId}
+                        { itemId: req.params.itemId }
                     ]
                 },
                 include: {
