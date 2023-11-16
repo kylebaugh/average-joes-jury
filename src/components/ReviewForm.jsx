@@ -51,7 +51,7 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
     }
 
     useEffect(() => {
-        if(userRating){
+        if(userRating) {
             setStars(userRating.stars)
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
