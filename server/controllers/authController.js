@@ -4,7 +4,7 @@ import bcryptjs from 'bcryptjs'
 const authFunctions = {
     login: async (req, res) => {
 
-        const {username, password} = req.body
+        const { username, password } = req.body
 
         const user = await User.findOne({
             where: {
@@ -21,14 +21,12 @@ const authFunctions = {
         })
 
         if(!user){
-            res.json('No username found')
+            res.send('No username found')
             return
         }
 
-        const authenticated = bcryptjs.compareSync(password, user.password)
-
-        if(!authenticated){
-            res.json('Password incorrect')
+        if(!bcryptjs.compareSync(password, user.password)){
+            res.send('Password incorrect')
             return
         }
 
@@ -37,20 +35,19 @@ const authFunctions = {
         res.send({  
             message: 'Login successful', 
             userId: user.userId,
-            username: user.username 
         })
     },
 
     logout: async (req, res) => {
         req.session.destroy()
-        res.json('Session terminated')
+        res.send('Session terminated')
     },
 
     sessionCheck: async (req, res) => {
         if (req.session.userId) {
-            res.json({ userId: req.session.userId })
+            res.send({ userId: req.session.userId })
         } else {
-            res.json("no user logged in")
+            res.send("No user logged in")
         }
     },
 
