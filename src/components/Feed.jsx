@@ -38,10 +38,16 @@ const Feed = ({ userId }) => {
         }
     }, [searchValue])
 
+
+
+    const datesArr = []
+    for(let i = 1; i< 32; i++) {
+        datesArr.push(<td>{i}</td>)
+    }
+
     return (
         <div>
             <input id='searchBar' placeholder="Search" onChange={(e) => setSearchValue(e.target.value)}/>
-
             {tenItems &&
                 <div id='mapped'>
                     {tenItems.map(item => {

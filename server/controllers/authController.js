@@ -6,8 +6,6 @@ const authFunctions = {
 
         const {username, password} = req.body
 
-        // console.log(req.body)
-
         const user = await User.findOne({
             where: {
                 username: username
@@ -34,15 +32,13 @@ const authFunctions = {
             return
         }
 
-        req.session.user = user
+        req.session.userId = user.userId
 
-        // console.log(req.session.user)
-
-        res.json({  
+        res.send({  
             message: 'Login successful', 
-            userId: user.userId 
+            userId: user.userId,
+            username: user.username 
         })
-
     },
 
     logout: async (req, res) => {
@@ -51,13 +47,12 @@ const authFunctions = {
     },
 
     sessionCheck: async (req, res) => {
-        if (req.session.user) {
-            res.json({ user: req.session.user })
+        if (req.session.userId) {
+            res.json({ userId: req.session.userId })
         } else {
             res.json("no user logged in")
         }
     },
-
 
 }
 

@@ -194,7 +194,7 @@ const itemFunctions = {
                 message: 'Duplicate name!'})
             return
 
-        } else{
+        } else {
             console.log(imgUrl)
 
             const user = await User.findByPk(req.session.user.userId)

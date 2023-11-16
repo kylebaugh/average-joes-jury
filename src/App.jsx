@@ -10,16 +10,13 @@ import './App.css'
 function App() {
 
 
-
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/feed' element={<Feed />} />
-        <Route path='/item/:itemId' element={<PageItem />}
-
-        />
+        <Route path='/item/:itemId' element={<PageItem />} />
       </Routes>
     </BrowserRouter>
   )

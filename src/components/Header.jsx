@@ -7,17 +7,17 @@ import Login from './Login'
 const Header = () => {
 
     const dispatch = useDispatch()
-    const user = useSelector(state => state.userId)
+    
+    const userId = useSelector(state => state.userId)
 
     const sessionCheck = async () => {
         await axios.get('/sessionCheck')
             .then(res => {
-                if (res.data.user) {
+                if (res.data.userId) {
                     dispatch({
                         type: 'authenticated',
-                        payload: res.data.user.userId
+                        payload: res.data.userId
                     })
-                    // console.log(res.data.user)
                 } else {
                     console.log(res.data)
                 }
@@ -44,7 +44,7 @@ const Header = () => {
                 <NavLink to="/">Home</NavLink>
             </button>
 
-            {user && 
+            {userId && 
             <button className="nav-btn">
                 <NavLink
                     to='/'
@@ -53,8 +53,7 @@ const Header = () => {
             </button>
             }
 
-
-            {!user && 
+            {!userId && 
             <Login />
             }
 

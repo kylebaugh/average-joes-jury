@@ -2,8 +2,21 @@ import Feed from './Feed'
 import MyReviews from './MyReviews'
 import { useDispatch, useSelector } from 'react-redux'
 import AddForm from './AddForm.jsx'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Home = () => {
+
+    const [initialData, setInitialData] = useState(null)
+
+    const serverCall = async () => {
+        const response = await axios.get("/")
+        setInitialData(response.data)
+    }
+
+    useEffect(() => {
+        serverCall()
+    }, [])
 
     const userId = useSelector(state => state.userId)
     const show = useSelector(state => state.show)

@@ -33,21 +33,31 @@ const AddForm = () => {
                     alert(res.data.message)
                 }
             })
+        }
 
-
-    }
-
-  return (
-    <div>
-        <p>Add Item</p>
-        <form>
-            <input placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
-            <input placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
-            <input placeholder='Image URL' value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} />
-            <button onClick={submitHandler}>Submit</button>
-        </form>
-    </div>
-  )
+    return (
+        <div>
+            <p>Add Item</p>
+            <form>
+                <input 
+                    placeholder='Name' 
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)} 
+                />
+                <input 
+                    placeholder='Description' 
+                    value={description} 
+                    onChange={(e) => setDescription(e.target.value)} 
+                />
+                <input 
+                    placeholder='Image URL' 
+                    value={imgUrl} 
+                    onChange={(e) => setImgUrl(e.target.value)} 
+                />
+                <button onClick={submitHandler}>Submit</button>
+            </form>
+        </div>
+    )
 }
 
 export default AddForm
