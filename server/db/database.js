@@ -4,7 +4,7 @@ const connectToDB = async (dbURI) => {
     console.log(`Connecting to DB: ${dbURI}`)
 
     const sequelize = new Sequelize(dbURI, {
-        logging: console.log, 
+        logging: false, 
         define: {
             underscored: true,
             timestamps: false,
