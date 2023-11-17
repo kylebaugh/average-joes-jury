@@ -136,7 +136,7 @@ const itemFunctions = {
 
         const userItems = await Item.findAll({
             where: {
-                userId: req.session.user.userId
+                userId: req.session.userId
             }
             , include: [
                 {
@@ -175,7 +175,7 @@ const itemFunctions = {
 
     addItem: async (req, res) => {
 
-        if(!req.session.user){
+        if(!req.session.userId){
             res.json('You must be logged in')
             return
         }
@@ -194,10 +194,10 @@ const itemFunctions = {
                 message: 'Duplicate name!'})
             return
 
-        } else{
+        } else {
             console.log(imgUrl)
 
-            const user = await User.findByPk(req.session.user.userId)
+            const user = await User.findByPk(req.session.userId)
 
             const newItem = await user.createItem({
                 name,
@@ -213,12 +213,12 @@ const itemFunctions = {
 
     deleteItem: async (req, res) => {
 
-        if(!req.session.user){
+        if(!req.session.userId){
             res.json('You must be logged in')
             return
         }
 
-        if(req.session.user.userId === req.session.item.userId){
+        if(req.session.userId === req.session.item.userId){
 
             let myItem = await Item.findByPk(req.session.item.itemId)
 
@@ -240,15 +240,15 @@ const itemFunctions = {
 
     editItem: async (req, res) => {
 
-        if(!req.session.user){
+        if(!req.session.userId){
             res.json('You must be logged in')
             return
         }
 
-        if(req.session.user.userId === req.session.item.userId){
+        if(req.session.userId === req.session.item.userId){
             let item = await Item.findByPk(req.session.item.itemId)
 
-            const {name, description, imgUrl} = req.body
+            const { name, description, imgUrl } = req.body
 
             item.name = name ?? item.name
             item.description = description ?? item.description
@@ -258,7 +258,10 @@ const itemFunctions = {
 
             req.session.item = item
 
-            res.json({message: 'update complete', item: item})
+            res.json({ 
+                message: 'update complete', 
+                item: item 
+            })
         } else {
             res.json("Your user ID doesn't match the ID of this item!")
         }

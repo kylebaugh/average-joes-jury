@@ -38,8 +38,7 @@ const userFunctions = {
             imgUrl,
         })
 
-        // req.session.user = newUser
-        // console.log(req.session.user)
+        req.session.userId = newUser.userId
 
         res.json({ 
             message: 'New user created and logged in', 
@@ -49,30 +48,30 @@ const userFunctions = {
 
     deleteUser: async (req, res) => {
 
-        if(!req.session.user){
+        if(!req.session.userId){
             res.json('You must be logged in')
             return
         }
 
         await User.destroy({
             where: {
-                userId: req.session.user.userId
+                userId: req.session.userId
             }
         })
 
-        res.json(`User ${req.session.user.username} has been deleted`)
+        res.json(`User ${req.session.userId} has been deleted`)
 
         req.session.destroy
     },
 
     updateUser: async (req, res) => {
 
-        if(!req.session.user){
+        if(!req.session.userId){
             res.json('You must be logged in')
             return
         }
 
-        const user = await User.findByPk(req.session.user.userId)
+        const user = await User.findByPk(req.session.userId)
 
         const {username,firstName, lastName, imgUrl} = req.body
 
@@ -84,7 +83,7 @@ const userFunctions = {
 
         await user.save()
 
-        req.session.user = user
+        req.session.userId = user.userId
 
         res.json(`User ${user.username} has been updated`)
     }

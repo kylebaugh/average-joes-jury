@@ -5,7 +5,11 @@ const voteFunctions = {
 
     createVote: async (req, res) => {
         
-        const rating = await Rating.findByPk(req.body.ratingId)
+        const rating = await Rating.findByPk(req.body.ratingId, {
+            include: {
+                model: Vote
+            }
+        })
         const vote = await Vote.findOne({
             where: {
                 [Op.and]: [
@@ -56,7 +60,11 @@ const voteFunctions = {
             }
         })
 
-        const rating = await Rating.findByPk(req.body.ratingId)
+        const rating = await Rating.findByPk(req.body.ratingId, {
+            include: {
+                model: Vote
+            }
+        })
         
         if (req.body.upVote === true) {
             rating.upVotes -= 1

@@ -1,13 +1,12 @@
-import { User, Item, Rating } from "../db/model.js";
+import { User, Item, Rating, Vote } from "../db/model.js";
 import { Op } from "sequelize";
 
 const ratingFunctions = {
     addRating: async (req, res) => {
-        const {stars, review, imgUrl} = req.body
-        console.log(stars)
+        const { stars, review, imgUrl } = req.body
 
         if(!req.session.user){
-            res.json('You must be logged in')
+            res.send('You must be logged in')
             return
         }
 
@@ -15,9 +14,9 @@ const ratingFunctions = {
 
         req.session.item = myItem
 
-        const user = await User.findByPk(req.session.user.userId)
+        const user = await User.findByPk(req.session.userId)
 
-        const newRating = await user.createRating({
+        await user.createRating({
             stars,
             review,
             imgUrl,
@@ -25,7 +24,19 @@ const ratingFunctions = {
             userId: user.userId
         })
 
-        res.json({
+        const newRating = await Rating.findOne({
+            where: {
+                [Op.and]: [
+                    { itemId: myItem.itemId },
+                    { userId: user.userId }
+                ]
+            },
+            include: {
+                model: Vote
+            }
+        })
+
+        res.send({
             message: 'rating added',
             newRating
         })
@@ -33,20 +44,20 @@ const ratingFunctions = {
 
     deleteRating: async (req, res) => {
 
-        const {ratingId} = req.params
+        const { ratingId } = req.params
 
         const rating = await Rating.findByPk(ratingId)
 
-        if(!req.session.user){
-            res.json('You must be logged in')
+        if(!req.session.userId) {
+            res.send('You must be logged in')
             return
         }
 
-        if(req.session.user.userId === rating.userId){
+        if(req.session.userId === rating.userId){
             await rating.destroy()
-            res.json(`Rating ID ${ratingId} has been deleted`)
+            res.send(`Rating ID ${ratingId} has been deleted`)
         }else{
-            res.json("You don't have permission to delete this item")
+            res.send("You don't have permission to delete this item")
         }
 
     },
@@ -58,7 +69,7 @@ const ratingFunctions = {
         const rating = await Rating.findByPk(ratingId)
 
         if(!req.session.user) {
-            res.json('You must be logged in')
+            res.send('You must be logged in')
             return
         }
 
@@ -68,9 +79,12 @@ const ratingFunctions = {
             rating.imgUrl = imgUrl
 
             await rating.save()
-            res.json({description: `Rating ID ${ratingId} has been updated`, rating: rating})
+            res.send({
+                description: `Rating ID ${ratingId} has been updated`, 
+                rating: rating
+            })
         }else{
-            res.json("You don't have permission to delete this item")
+            res.send("You don't have permission to delete this item")
         }
     },
 
@@ -84,7 +98,7 @@ const ratingFunctions = {
             }
         })
 
-        res.json(ratings)
+        res.send(ratings)
     },
 
     getAllUserRatings: async (req, res) => {
@@ -115,7 +129,7 @@ const ratingFunctions = {
 
         await itemRatings()
 
-        res.json(ratingsAndInfo)
+        res.send(ratingsAndInfo)
     }
 }
 

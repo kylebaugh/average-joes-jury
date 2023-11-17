@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import axios from "axios"
 import Thumb from "./Thumb"
 
-const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
+const ReviewForm = ({ itemId, userRating, setUserRating }) => {
 
     const editMode = useSelector(state => state.editMode)
     const dispatch = useDispatch()
@@ -32,11 +32,13 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
             setUserRating(data.newRating)
 
         } else {
-            let { data } = await axios.put(`/rating/${userRating.ratingId}`, {
-                stars,
-                review,
-                imgUrl,
-            })
+            let { data } = await axios.put(`/rating/${userRating.ratingId}`, 
+                {
+                    stars,
+                    review,
+                    imgUrl,
+                }
+            )
             console.log("edit put")
             setUserRating(data.rating)
         }
@@ -61,7 +63,7 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
 
 
     useEffect(() => {
-        if (userRating) {
+        if(userRating) {
             setStars(userRating.stars)
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
@@ -130,25 +132,27 @@ const ReviewForm = ({ itemId, userRating, setUserRating, scotty }) => {
             {userId && !editMode &&
                 <section>
                     {userRating &&
-                        <>
-                            <section>
-                                <h4>Your Rating:</h4>
-                                <p>User: {userId}</p>
-                                <p>Stars: {stars}</p>
-                                <p>Review: {review}</p>
-                                <img src={imgUrl}></img>
-                                <div>
+                    <>
+                    <section>
+                        <h4>Your Rating:</h4>
+                        <p>User: {userId}</p>
+                        <p>Stars: {stars}</p>
+                        <p>Review: {review}</p>
+                        <img src={imgUrl}></img>
+                        <div>
+                            <Thumb 
+                                userReview={userRating} 
+                            />
+                        </div>
+                    </section>
+                    <section>
 
-                                </div>
-                            </section>
-                            <section>
-
-                                <button
-                                    onClick={toggleEdit}
-                                >Edit Rating
-                                </button>
-                            </section>
-                        </>
+                        <button
+                            onClick={toggleEdit}
+                        >Edit Rating
+                        </button>
+                    </section>
+                    </>
                     }
                     {!userRating &&
                         <button

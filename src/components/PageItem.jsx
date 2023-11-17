@@ -36,21 +36,21 @@ const PageItem = () => {
                 key={review.ratingId}
                 className="fullReview"
             >
+                <p>Rating: {review.ratingId}</p>
                 <p className={review.currentUser}>User: {review.userId}</p>
                 <p>Stars: {review.stars}</p>
                 <p>Review: {review.review}</p>
                 <img src={review.imgUrl} />
-                {review.votes !== 0 &&<div>
-                    <Thumb
-                        review={review}
-                        scotty={scotty}
+                <div>
+                    <Thumb 
+                        review={review} 
+
                     />
                 </div>}
 
             </section>
         )
     })
-    // console.log(item)
 
     return (
         <div className='pageItem'>Full Page Item
@@ -79,13 +79,11 @@ const PageItem = () => {
                             itemId={itemId}
                             userRating={userRating}
                             setUserRating={setUserRating}
-                            scotty={scotty}
                         />
                     }
                     {!userRating &&
                         <ReviewForm
                             setUserRating={setUserRating}
-                            scotty={scotty}
                         />
                     }
                     </section>
