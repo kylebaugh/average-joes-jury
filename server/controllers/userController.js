@@ -26,7 +26,6 @@ const userFunctions = {
     getUserById: async (req, res) => {
 
         const user = await User.findByPk(req.params.userId)
-        console.log(user)
 
         res.send({
             status: 200,
