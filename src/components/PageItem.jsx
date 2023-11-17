@@ -44,8 +44,9 @@ const PageItem = () => {
                 <div>
                     <Thumb 
                         review={review} 
+
                     />
-                </div>
+                </div>}
 
             </section>
         )

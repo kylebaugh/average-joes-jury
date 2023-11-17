@@ -12,6 +12,9 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
     const [review, setReview] = useState("")
     const [imgUrl, setImgUrl] = useState("")
 
+    const [deleteRequest, setDeleteRequest] = useState(false)
+
+
     const userId = useSelector(state => state.userId)
 
     const submitHandler = async (e) => {
@@ -50,13 +53,25 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
         })
     }
 
+    const deleteHandler = async () => {
+        console.log('hit')
+        const { data } = await axios.delete(`/rating/${userRating.ratingId}`)
+        console.log(data)
+        setDeleteRequest(false)
+        setUserRating(null)
+    }
+
+
     useEffect(() => {
         if(userRating) {
             setStars(userRating.stars)
             setReview(userRating.review)
             setImgUrl(userRating.imgUrl)
         }
-      }, [userRating, editMode, setUserRating])
+        // for(let prop in userRating){
+        //     console.log(prop)
+        // }
+    }, [userRating, editMode, setUserRating])
 
     return (
         <div className="pageItem">
@@ -83,14 +98,14 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                                 rows={5}
                                 onChange={(e) => setReview(e.target.value)}
                                 defaultValue={review}
-                                />
+                            />
                         </section>
                         <section>Image URL
                             <input
                                 type="text"
                                 onChange={(e) => setImgUrl(e.target.value)}
                                 defaultValue={imgUrl}
-                                />
+                            />
                         </section>
                         <section>
                             <input type="submit" />
@@ -100,8 +115,20 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                         onClick={toggleEdit}
                     >Cancel
                     </button>
-                </section>
+
+                    {userRating && <section>
+                            {!deleteRequest && <button onClick={() => setDeleteRequest(true)}>Delete Review?</button>}
+                            {deleteRequest && <section>
+                                Are you sure?
+                                <button onClick={() => setDeleteRequest(false)}>Nevermind</button>
+                                <button onClick={deleteHandler}>Yes, I'm sure</button>
+                            </section>
+                            }
+                    </section>}
+            </section>
             }
+
+
             {userId && !editMode &&
                 <section>
                     {userRating &&
@@ -132,7 +159,18 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                             onClick={toggleEdit}
                         >Add A Review
                         </button>
+
+
                     }
+                    {userRating && <section>
+                        {!deleteRequest && <button onClick={() => setDeleteRequest(true)}>Delete Review?</button>}
+                        {deleteRequest && <section>
+                            Are you sure?
+                            <button onClick={() => setDeleteRequest(false)}>Nevermind</button>
+                            <button onClick={deleteHandler}>Yes, I'm sure</button>
+                        </section>
+                        }
+                    </section>}
                 </section>
             }
 
