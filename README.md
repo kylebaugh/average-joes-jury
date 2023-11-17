@@ -1,8 +1,7 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Average-Joe's Jury
 
-Currently, two official plugins are available:
+Jury's out and everyone can join in the fun. Rate whatever you'd like - an item, a trip, a location, a service - if you've had an experience with something, go ahead and let everyone else know how it was! Trying to find someone to vouch for something niche that has caught your interest? Maybe someone has, right here on Average-Joe's Jury. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+More importantly, we should probably write about how you can get this application working. But I'll probably include more of those details later when we finally get this thing looking decent.
