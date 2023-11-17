@@ -21,7 +21,6 @@ app.use(session({
 
 const {
     getAllUsers,
-    getUserByUsername,
     getUserById,
     createUser,
     deleteUser,
@@ -60,7 +59,6 @@ const {
 /// Routes ///
 // Users
 app.get('/users', getAllUsers)
-// app.get('/user/:username', getUserByUsername)
 app.get('/user/:userId', getUserById)
 app.post('/adduser', createUser)
 app.delete('/user', deleteUser)

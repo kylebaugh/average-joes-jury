@@ -21,11 +21,7 @@ const Profile = () => {
 export const profileLoader = async({ params }) => {
 	const { userId } = params
 
-	console.log("userId:" + userId)
-
 	const { data } = await axios.get(`/user/${userId}`)
-
-	console.log(data)
 
 	if (data.status !== 200) {
 		throw Error("Error loading user profile!")

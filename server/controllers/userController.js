@@ -8,20 +8,20 @@ const userFunctions = {
         res.json(await User.findAll())
     },
 
-    getUserByUsername: async (req, res) => {
+    // getUserByUsername: async (req, res) => {
 
-        const profile = await User.findOne({
-            where: { username: req.params.username },
-            include: [
-                {model: Item},
-                {model: Rating}
-            ]
-        })
+    //     const profile = await User.findOne({
+    //         where: { username: req.params.username },
+    //         include: [
+    //             {model: Item},
+    //             {model: Rating}
+    //         ]
+    //     })
 
-        req.session.currentProfile = profile
+    //     req.session.currentProfile = profile
 
-        res.json(profile)
-    },
+    //     res.json(profile)
+    // },
 
     getUserById: async (req, res) => {
 
