@@ -20,7 +20,18 @@ const userFunctions = {
 
         req.session.currentProfile = profile
 
-        res.json(profile.rating)
+        res.json(profile)
+    },
+
+    getUserById: async (req, res) => {
+
+        const user = await User.findByPk(req.params.userId)
+        console.log(user)
+
+        res.send({
+            status: 200,
+            user: user
+        })
     },
 
     createUser: async (req, res) => {

@@ -149,10 +149,10 @@ const Login = () => {
                 <button
                     type="submit"
                 >Login</button>
-                <a
+                <button
                     onClick={toggleLogin}
-                >Need to Register? Click here
-                </a>
+                >Register
+                </button>
             </div>
             }
 
