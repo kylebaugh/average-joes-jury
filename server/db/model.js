@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import connectToDB from './database.js'
 import util from 'util'
+import bcryptjs from 'bcryptjs'
 
 export const db = await connectToDB('postgresql:///averagedb')
 
@@ -39,6 +40,36 @@ User.init(
         }
     },
     {
+        hooks: {
+            beforeCreate: (user, options) => {
+                const hashedPassword = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync(5))
+                user.password = hashedPassword
+            },
+            beforeBulkCreate: (users, options) => {
+                for (let user of users) {
+                    const hashedPassword = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync(5))
+                    user.password = hashedPassword
+                }
+            },
+            beforeUpdate: (user, options) => {
+                if (user.password) {
+                    const hashedPassword = bcryptjs.hashSync(user.password, bcryptjs.genSaltSync(5))
+                    user.password = hashedPassword
+                }
+            }
+        },
+        defaultScope: {
+            attributes: {
+                exclude: ['password']
+            }
+        },
+        scopes: {
+            withPassword: {
+                attributes: {
+                    include: ['password']
+                }
+            }
+        },
         modelName: 'user',
         sequelize: db,
     }
