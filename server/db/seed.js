@@ -1,6 +1,5 @@
 import { User, Item, Rating, db } from "./model.js";
 import lodash from 'lodash'
-import bcryptjs from 'bcryptjs'
 
 console.log("Syncing database ...")
 
@@ -13,12 +12,9 @@ const WORDS = ["the tits", "bootaylicious", "duh sheeyit", "top notch", "gnarly 
 let i = 1
 while (i < 11) {
 
-    const salt = bcryptjs.genSaltSync(5)
-    const hash = bcryptjs.hashSync('test', salt)
-
     const newUser = await User.create({
         username: `user${i}`,
-        password: hash,
+        password: 'test',
         firstName: `Fname${i}`,
         lastName: `Lname${i}`,
         imgUrl: 'https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png'
@@ -52,7 +48,6 @@ for (const user of users) {
 const user5 = await User.findByPk(5)
 console.log(await user5.getItems())
 console.log(await user5.getRatings())
-
 
 console.log('Finished seeding database')
 
