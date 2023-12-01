@@ -46,7 +46,7 @@ const PageItem = () => {
                         review={review} 
 
                     />
-                </div>}
+                </div>
 
             </section>
         )

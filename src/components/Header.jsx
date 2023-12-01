@@ -3,6 +3,7 @@ import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink, Outlet } from "react-router-dom"
 import Login from './Login'
+import { Container, Row, Col } from "react-bootstrap"
 
 const Header = () => {
 
@@ -38,34 +39,42 @@ const Header = () => {
   }, [])
 
   return (
-    <div id="navbar">
+    <Container fluid id="main">
 
-      <header id="navbar">
+      {/* <Container fluid> */}
 
-        <button className='nav-btn'>
-          <NavLink to="/">Home</NavLink>
-        </button>
+      <Container id="navbar">
 
-        {userId && 
-        <button className="nav-btn">
-          <NavLink
-            to='/'
-            onClick={logout}
-            >Logout</NavLink>
-        </button>
-        }
+        <Row>
+          <Col xs={2}>
+            <button className='nav-btn'>
+              <NavLink to="/">Home</NavLink>
+            </button>
+          </Col>
 
-        {!userId && 
-        <Login />
-        }
+          <Col xs={8}>
+            {userId && 
+            <button className="nav-btn">
+              <NavLink
+                to='/'
+                onClick={logout}
+                >Logout</NavLink>
+            </button>
+            }
 
-      </header>
+            {!userId && 
+            <Login />
+            }
+          </Col>
+        </Row>
 
-      <main>
-        <Outlet />
-      </main>
+      </Container>
+      
+      <Row>
+          <Outlet />
+      </Row>
 
-    </div>
+    </Container>
   )
 }
 

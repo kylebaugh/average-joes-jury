@@ -124,10 +124,10 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                                 <button onClick={deleteHandler}>Yes, I'm sure</button>
                             </section>
                             }
-                    </section>}
+                    </section>
+                    }
             </section>
             }
-
 
             {userId && !editMode &&
                 <section>
