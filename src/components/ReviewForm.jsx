@@ -40,6 +40,7 @@ const ReviewForm = ({ itemId, userRating, setUserRating }) => {
                 }
             )
             console.log("edit put")
+            console.log(data)
             setUserRating(data.rating)
         }
 
