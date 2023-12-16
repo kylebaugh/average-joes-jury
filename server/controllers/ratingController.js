@@ -66,14 +66,17 @@ const ratingFunctions = {
         const { ratingId } = req.params
         const { stars, review, imgUrl } = req.body
 
+        console.log(req.body)
+        console.log(req.session)
+
         const rating = await Rating.findByPk(ratingId)
 
-        if(!req.session.user) {
+        if(!req.session.userId) {
             res.send('You must be logged in')
             return
         }
 
-        if(req.session.user.userId === rating.userId){
+        if(req.session.userId === rating.userId){
             rating.stars = +stars ?? rating.stars
             rating.review = review
             rating.imgUrl = imgUrl
