@@ -9,6 +9,7 @@ import Header from './components/Header'
 import Profile, { profileLoader } from './components/Profile'
 import PageItem from './components/PageItem'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import NotFound from './pages/NotFound'
 
 const router = createBrowserRouter(
