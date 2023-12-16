@@ -33,6 +33,9 @@ const Header = () => {
         dispatch({ type: 'SET_SHOW', payload: 'search'})
       })
   }
+  const goHome = async () => {
+        dispatch({ type: 'SET_SHOW', payload: 'search'})
+    }
 
   useEffect(() => {
     sessionCheck()
@@ -46,14 +49,14 @@ const Header = () => {
 
         <Row className="d-flex justify-content-between">
           <Col xs={2}>
-            <button className='nav-btn'>
+            <button className='nav-btn' onClick={goHome}>
               <NavLink to="/">Home</NavLink>
             </button>
           </Col>
 
           <Col xs={6}>
             {userId && 
-            <button className="nav-btn">
+            <button className="nav-btn" >
               <NavLink
                 to='/'
                 onClick={logout}
