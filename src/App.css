@@ -36,9 +36,9 @@
   color: gray;
 }
 
-#navbar {
+/* #navbar {
   display: flex;
-}
+} */
 
 a:hover {
   cursor: pointer;
@@ -47,8 +47,8 @@ a:hover {
 .feedItem{
   margin: 1vw;
   border: solid red 2px;
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
 }
 
 .pageItem {
@@ -70,9 +70,9 @@ img {
   height: 50px;
 }
 
-#homepage {
+/* #homepage {
   display: flex;
-}
+} */
 
 #navButtons {
   border: 1px solid black;

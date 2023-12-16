@@ -36,6 +36,17 @@ const userFunctions = {
 
         const { username, password, firstName, lastName, imgUrl } = req.body
 
+        if (await User.findOne({
+            where: {
+                username: username,
+            }
+        })) {
+            res.status(400).send({
+                message: "Username already in use",
+            })
+            return
+        }
+
         const newUser = await User.create({
             username,
             password,

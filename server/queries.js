@@ -1,20 +1,34 @@
 import { Sequelize, Op } from "sequelize";
 import { User, Item, Rating, Vote, db } from "./db/model.js";
 
-await User.create({
-    username: "hookuser",
-    password: "test",
-    firstName: "Hook",
-    lastName: "User Test",
-    imgUrl: "nada"
+const myItem = await Item.findByPk(2, {
+    include: [
+        {
+            model: Rating,
+            where: {
+                [Op.not]: { userId: 1 }
+            },
+            attributes: [
+                'ratingId',
+                'stars',
+                'review',
+                'imgUrl',
+                'upVotes',
+                'downVotes',
+                [Sequelize.cast(Sequelize.literal('SUM(up_votes + down_votes)'), 'int'), 'totalVotes']
+            ],
+            required: false,
+            include: {
+                model: Vote
+            }
+        },
+        {
+            model: User
+        },
+    ],
+    group: ['item.item_id', 'ratings.rating_id', 'ratings.votes.vote_id', 'user.user_id']
 })
 
-const user = await User.findOne({ where: { username: "hookuser" } })
-
-console.log(user) 
-
-const userPw = await User.scope('withPassword').findOne({ where: { username: "hookuser" } })
-
-console.log(userPw)
+console.log(myItem)
 
 await db.close()

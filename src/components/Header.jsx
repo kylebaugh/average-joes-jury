@@ -41,18 +41,17 @@ const Header = () => {
   return (
     <Container fluid id="main">
 
-      {/* <Container fluid> */}
-
       <Container id="navbar">
+        <h3>Average Joe's Jury</h3>
 
-        <Row>
+        <Row className="d-flex justify-content-between">
           <Col xs={2}>
             <button className='nav-btn'>
               <NavLink to="/">Home</NavLink>
             </button>
           </Col>
 
-          <Col xs={8}>
+          <Col xs={6}>
             {userId && 
             <button className="nav-btn">
               <NavLink
@@ -71,7 +70,7 @@ const Header = () => {
       </Container>
       
       <Row>
-          <Outlet />
+        <Outlet />
       </Row>
 
     </Container>
